@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
 
-  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +21,12 @@ flutter:
 
   assets:
     - assets/logo.png
+    - assets/Room1.jpg
+    - assets/Room2.jpg
+    - assets/Room3.jpg
+    - assets/front.jpg
+    - assets/cottage.jpg
+    - assets/Room4.jpg
+    - assets/view.jpg
+    - assets/roomview.jpg
+    - assets/comfortroom.jpg
