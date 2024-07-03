@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/login_screen.dart';
-import 'package:kandahar/screens/register_screen.dart';
+import 'package:kandahar/screens/registration.dart';
+import 'package:kandahar/screens/accommodations.dart';
 
 
 void main() {
@@ -15,10 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      initialRoute: '/accommodations',
       routes: {
         '/login': (context) => LoginScreen(),
-        '/register': (context) => RegistrationScreen(),
+        '/register' : (context) => Registration(),
+        '/accommodations' : (context) => Accommodations(),
       },
     );
   }
