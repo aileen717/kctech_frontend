@@ -32,12 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _selectAccommodationsTab() {
-    setState(() {
-      _selectedIndex = 1; //
-    });
-  }
-
   final List<String> imgList = [
     'assets/front.jpg',
     'assets/Room1.jpg',
@@ -58,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.brown[200],
         centerTitle: true,
         toolbarHeight: 110.0,
+
       ),
       drawer: Drawer(
         child: ListView(
@@ -185,7 +180,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.brown[100],
         items: const <BottomNavigationBarItem>[
@@ -195,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.night_shelter_outlined),
-            label: 'Accommodations',
+            label: 'Acccommodations',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),

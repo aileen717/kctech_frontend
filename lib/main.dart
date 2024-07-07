@@ -6,7 +6,7 @@ import 'package:kandahar/screens/availability.dart';
 void main() => runApp(MaterialApp(
   initialRoute: '/availability',
   routes: {
-    '/home': (context) => MyHomePage(),
-    '/availability': (context) => Availability(),
+    '/home' : (context) => MyHomePage(),
+    '/availability' : (context) => Availability(),
   },
 ));

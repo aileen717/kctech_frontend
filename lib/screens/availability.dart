@@ -16,9 +16,9 @@ class _AvailabilityState extends State<Availability> {
     DateTime(2024, 7, 1): 'Reserved',
     DateTime(2024, 7, 4): 'Reserved',
     DateTime(2024, 7, 5): 'Reserved',
-    DateTime(2024, 7, 28): 'Reserved',
-    DateTime(2024, 7, 29): 'Reserved',
-    DateTime(2024, 7, 30): 'Reserved',
+    DateTime(2024, 7, 24): 'Reserved',
+    DateTime(2024, 7, 17): 'Reserved',
+    DateTime(2024, 7, 31): 'Reserved',
   };
 
   int _selectedIndex = 0;
@@ -174,6 +174,8 @@ class _AvailabilityState extends State<Availability> {
           ),
         ],
       ),
+
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.brown[100],
         items: const <BottomNavigationBarItem>[
