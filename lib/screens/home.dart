@@ -47,9 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
-        backgroundColor: Colors.brown[200],
+        backgroundColor: Colors.brown[600],
         centerTitle: true,
         toolbarHeight: 110.0,
 
@@ -102,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           PreferredSize(
             preferredSize: Size.fromHeight(80.0),
             child: Container(
-              color: Colors.brown[700],
+              color: Colors.brown[400],
               child: Center(
                 child: Text(
                   'HOME',
@@ -179,27 +180,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.brown[100],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.night_shelter_outlined),
-            label: 'Acccommodations',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Bookings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
       ),
     );
   }

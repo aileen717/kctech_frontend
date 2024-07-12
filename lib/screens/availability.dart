@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
+  final double price;
+
+  const Availability({Key? key, required this.price}) : super(key: key);
 
   @override
   State<Availability> createState() => _AvailabilityState();
@@ -44,7 +47,7 @@ class _AvailabilityState extends State<Availability> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[900],
+                color: Colors.brown[500],
               ),
               child: Text(
                 'Menu',
@@ -58,7 +61,6 @@ class _AvailabilityState extends State<Availability> {
               leading: Icon(Icons.person),
               title: Text('My Profile'),
               onTap: () {
-                // Handle the Search tap
                 Navigator.pop(context);
               },
             ),
@@ -79,14 +81,13 @@ class _AvailabilityState extends State<Availability> {
           ],
         ),
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           PreferredSize(
             preferredSize: Size.fromHeight(80.0),
             child: Container(
-              color: Colors.brown[700],
+              color: Colors.brown[400],
               child: Center(
                 child: Text(
                   'Check Availability',
@@ -107,7 +108,6 @@ class _AvailabilityState extends State<Availability> {
                     fit: BoxFit.cover,
                   ),
                 ),
-
                 Expanded(
                   child: TableCalendar(
                     firstDay: DateTime.utc(2020, 1, 1),
@@ -158,46 +158,24 @@ class _AvailabilityState extends State<Availability> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                      },
-                      child: Text('Book Room'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown[700], // Background color
-                        foregroundColor: Colors.white, // Text color
-                        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-                      ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle booking logic here
+                      print('Book Room');
+                    },
+                    child: Text('Book Room'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.brown[700], // Background color
+                      foregroundColor: Colors.white, // Text color
+                      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                     ),
                   ),
-                  ]
+                ),
+              ],
             ),
           ),
         ],
       ),
-
-
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.brown[100],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.night_shelter_outlined),
-            label: 'Accommodations',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Bookings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
     );
   }
-
-  }
+}
