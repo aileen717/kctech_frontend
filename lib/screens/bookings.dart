@@ -6,30 +6,45 @@ class Bookings extends StatefulWidget {
 }
 
 class _BookingsState extends State<Bookings> {
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _email = '';
+  DateTime _reservationDate = DateTime.now();
+  DateTime _checkInDate = DateTime.now();
+  DateTime _checkOutDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context, DateTime initialDate, Function(DateTime) onDateSelected) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != initialDate) {
+      onDateSelected(picked);
+    }
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      print('Booking successful!');
+      print('Name: $_name');
+      print('Email: $_email');
+      print('Reservation Date: $_reservationDate');
+      print('CheckIn Date: $_checkInDate');
+      print('CheckOut Date: $_checkOutDate');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[400],
       appBar: AppBar(
+        title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
-        toolbarHeight: 80.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(width: 20), // Adjust the spacing as needed
-            Text(
-              'Kandahar Cottages',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(width: 65.0,),
-            CircleAvatar(
-              radius: 16,
-              backgroundImage: AssetImage('assets/logo.png'), // Replace with your logo asset path
-            ),
-          ],
-        ),
         centerTitle: true,
+        toolbarHeight: 110.0,
       ),
       drawer: Drawer(
         child: ListView(
@@ -37,7 +52,7 @@ class _BookingsState extends State<Bookings> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[500],
+                color: Colors.brown[900],
               ),
               child: Text(
                 'Menu',
@@ -75,13 +90,86 @@ class _BookingsState extends State<Bookings> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           PreferredSize(
-            preferredSize: Size.fromHeight(150.0),
+            preferredSize: Size.fromHeight(80.0),
             child: Container(
               color: Colors.brown[400],
               child: Center(
                 child: Text(
-                  'Bookings',
+                  'HOME',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'Name'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _name = value!;
+                      },
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'Number of Guests'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a valid Number of Guests';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _email = value!;
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Date of Reservation: ${_reservationDate.toLocal().toString().split(' ')[0]}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: () => _selectDate(context, _reservationDate, (picked) {
+                        setState(() {
+                          _reservationDate = picked;
+                        });
+                      }),
+                    ),
+                    ListTile(
+                      title: Text("CheckIn: ${_checkInDate.toLocal().toString().split(' ')[0]}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: () => _selectDate(context, _checkInDate, (picked) {
+                        setState(() {
+                          _checkInDate = picked;
+                        });
+                      }),
+                    ),
+                    ListTile(
+                      title: Text("CheckOut: ${_checkOutDate.toLocal().toString().split(' ')[0]}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: () => _selectDate(context, _checkOutDate, (picked) {
+                        setState(() {
+                          _checkOutDate = picked;
+                        });
+                      }),
+                    ),
+                    SizedBox(height: 20.0),
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text('Book Room'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown[700], // Background color
+                        foregroundColor: Colors.white, // Text color
+                        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -7,7 +7,7 @@ import 'package:kandahar/screens/bookings.dart';
 
 
 void main() => runApp(MaterialApp(
-initialRoute: '/',
+initialRoute: '/bookings',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),
