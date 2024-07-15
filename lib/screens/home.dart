@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[900],
+                color: Colors.brown[500],
               ),
               child: Text(
                 'Menu',
@@ -120,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           CarouselSlider(
             options: CarouselOptions(
+              autoPlayAnimationDuration: Duration(seconds: 1),
               height: 200.0,
               autoPlay: true,
               enlargeCenterPage: true,

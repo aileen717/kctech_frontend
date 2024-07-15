@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
+import 'package:kandahar/screens/availability.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
@@ -7,7 +8,7 @@ import 'package:kandahar/screens/bookings.dart';
 
 
 void main() => runApp(MaterialApp(
-initialRoute: '/bookings',
+initialRoute: '/',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),

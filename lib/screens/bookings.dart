@@ -52,7 +52,7 @@ class _BookingsState extends State<Bookings> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[900],
+                color: Colors.brown[500],
               ),
               child: Text(
                 'Menu',
@@ -95,7 +95,7 @@ class _BookingsState extends State<Bookings> {
               color: Colors.brown[400],
               child: Center(
                 child: Text(
-                  'HOME',
+                  'BOOOKINGS',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),

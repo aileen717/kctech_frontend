@@ -3,10 +3,64 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(MaterialApp(
-    home: Accommodation(),
-  ));
+class SelectedAccommodationsStateful extends StatefulWidget {
+  final Accommodations accommodations;
+
+  SelectedAccommodationsStateful({required this.accommodations});
+
+  @override
+  _SelectedAccommodationsState createState() => _SelectedAccommodationsState();
+}
+
+class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful> {
+  late String name;
+  late String type;
+  late double price;
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.accommodations.name;
+    type = widget.accommodations.type;
+    price = widget.accommodations.price;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: Center(
+        child: Card(
+          margin: EdgeInsets.all(16.0),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Name: $name',
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Type: $type',
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Price: \$${price.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class Accommodations {
@@ -120,15 +174,6 @@ class _AccommodationState extends State<Accommodation> {
               ),
             ),
           ),
-          SizedBox(height: 15.0), // Spacer between title and buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildButton('All'),
-              _buildButton('Rooms'),
-              _buildButton('Cottages'),
-            ],
-          ),
           SizedBox(height: 20.0), // Spacer below buttons
           Expanded(
             child: FutureBuilder<List<Accommodations>>(
@@ -136,8 +181,6 @@ class _AccommodationState extends State<Accommodation> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
                   List<Accommodations> accommodations = snapshot.data!;
                   return Padding(
@@ -145,7 +188,7 @@ class _AccommodationState extends State<Accommodation> {
                     child: ListView.builder(
                       itemCount: accommodations.length,
                       itemBuilder: (context, index) {
-                        return _buildCard(accommodations[index]);
+                        return _buildCard(context, accommodations[index]);
                       },
                     ),
                   );
@@ -160,7 +203,7 @@ class _AccommodationState extends State<Accommodation> {
     );
   }
 
-  Widget _buildButton(String label) {
+  Widget buildButton(String label) {
     return ElevatedButton(
       onPressed: () {
         print('Pressed $label');
@@ -174,7 +217,7 @@ class _AccommodationState extends State<Accommodation> {
     );
   }
 
-  Widget _buildCard(Accommodations accommodations) {
+  Widget _buildCard(BuildContext context, Accommodations accommodations) {
     return Card(
       margin: EdgeInsets.all(8.0),
       color: Colors.brown[300],
@@ -191,6 +234,10 @@ class _AccommodationState extends State<Accommodation> {
               ),
             ),
             Text(
+              'Name: ${accommodations.name}',
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+            ),
+            Text(
               'Type: ${accommodations.type}', // Display type here
               style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
             ),
@@ -204,45 +251,10 @@ class _AccommodationState extends State<Accommodation> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SelectedAccommodations(accommodations: accommodations),
+              builder: (context) => SelectedAccommodationsStateful(accommodations: accommodations),
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class SelectedAccommodations extends StatelessWidget {
-  final Accommodations accommodations;
-
-  SelectedAccommodations({required this.accommodations});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(accommodations.name),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Name: ${accommodations.name}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              'Type: ${accommodations.type}',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Price: ${accommodations.price}',
-              style: TextStyle(fontSize: 24),
-            ),
-          ],
-        ),
       ),
     );
   }
