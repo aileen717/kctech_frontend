@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
+  final String name;
+  final String type;
   final double price;
 
-  const Availability({Key? key, required this.price}) : super(key: key);
+  const Availability({Key? key, required this.name, required this.type, required this.price}) : super(key: key);
 
   @override
   State<Availability> createState() => _AvailabilityState();
@@ -24,11 +26,11 @@ class _AvailabilityState extends State<Availability> {
     DateTime(2024, 7, 31): 'Reserved',
   };
 
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -65,17 +67,17 @@ class _AvailabilityState extends State<Availability> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],

@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
         centerTitle: true,
-        toolbarHeight: 110.0,
+        toolbarHeight: 100.0,
 
       ),
       drawer: Drawer(
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[400],
+                color: Colors.brown[500],
               ),
               child: Text(
                 'Menu',
@@ -80,17 +80,17 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],
@@ -120,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           CarouselSlider(
             options: CarouselOptions(
+              autoPlayAnimationDuration: Duration(seconds: 1),
               height: 270.0,
               autoPlay: true,
               enlargeCenterPage: true,
@@ -138,12 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.0),
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
                 'The KANDAHAR COTTAGES, owned by Ms. Neneth B. Lejano, and is located '
                     'at Matabungkay, Lian Batangas. It has 9 rooms, 2 of this is duplex '
                     'rooms, 3 couple rooms, 1 family rooms good for 20 persons, 1 family room '
-                    'good for 10 persons and a presidential suite.  And also they can rent a videoke. About '
+                    'good for 10 persons and a presidential suite. It also have kubo’s that can '
+                    'be rented by barkada’s for gathering and many other more vicinities that can '
+                    'be explored. And also they can rent a videoke. About '
                     'the safety of the customer the Manager of the Kandahar Cottages rent a life guard.',
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
@@ -151,16 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
 
-          Center(
-            child: Text(
-              '',
-              style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),
-            ),
-          ),
+          SizedBox(height: 10.0,),
           Center(
             child: Text(
               'Kandahar Cottages',
-              style: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             ),
           ),
           Center(
