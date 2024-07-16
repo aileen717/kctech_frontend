@@ -1,25 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:kandahar/screens/login_screen.dart';
-import 'package:kandahar/screens/register_screen.dart';
+
+import 'package:kandahar/screens/accommodation.dart';
+import 'package:kandahar/screens/bookingdetails.dart';
+import 'package:kandahar/screens/bookings.dart';
+import 'package:kandahar/screens/home.dart';
+import 'package:kandahar/screens/login.dart';
+import 'package:kandahar/screens/registration.dart';
 
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(MaterialApp(
+initialRoute: '/booking',
+routes: {
+  '/' : (context) => HomeScreen(),
+  '/login' : (context) => Login(),
+  '/registration' : (context) => Registration(),
+  '/accommodation' : (context) => Accommodation(),
+  '/booking' : (context) => Bookings(),
+  '/bookings' : (context) => BookingPage(),
+  },
+));
+
+
+class HomeScreen extends StatefulWidget {
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class MyApp extends StatelessWidget {
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _widgetOptions = [
+    MyHomePage(),
+    Accommodation(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Registration App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.brown[100],
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.beach_access),
+            label: 'Accommodations',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmarks_outlined),
+            label: 'Bookings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegistrationScreen(),
-      },
-    );
+    ),
   }
 }
