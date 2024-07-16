@@ -16,7 +16,7 @@ routes: {
   '/login' : (context) => Login(),
   '/registration' : (context) => Registration(),
   '/accommodation' : (context) => Accommodation(),
-  '/bookings' : (context) => Bookings(),
+  '/bookingdetails' : (context) => Bookings(),
   '/profile' : (context) => Profile(),
   '/bookings' : (context) => BookingPage(),
   },
