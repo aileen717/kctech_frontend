@@ -24,11 +24,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+  int selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[900],
+                color: Colors.brown[400],
               ),
               child: Text(
                 'Menu',
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           CarouselSlider(
             options: CarouselOptions(
-              height: 200.0,
+              height: 270.0,
               autoPlay: true,
               enlargeCenterPage: true,
             ),
@@ -143,11 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'The KANDAHAR COTTAGES, owned by Ms. Neneth B. Lejano, and is located '
                     'at Matabungkay, Lian Batangas. It has 9 rooms, 2 of this is duplex '
                     'rooms, 3 couple rooms, 1 family rooms good for 20 persons, 1 family room '
-                    'good for 10 persons and a presidential suite. It also have kubo’s that can '
-                    'be rented by barkada’s for gathering and many other more vicinities that can '
-                    'be explored. If the customer wants to explore or enjoy the beach they can '
-                    'rent some aqua facilities like banana boat, sail boat, motor boat, aqua bike '
-                    'and floating raft in the beach. And also they can rent a videoke. About '
+                    'good for 10 persons and a presidential suite.  And also they can rent a videoke. About '
                     'the safety of the customer the Manager of the Kandahar Cottages rent a life guard.',
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),

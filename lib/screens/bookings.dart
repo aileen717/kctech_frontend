@@ -1,50 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class Bookings extends StatefulWidget {
-  @override
-  State<Bookings> createState() => _BookingsState();
+void main() {
+  runApp(MyApp());
 }
 
-class _BookingsState extends State<Bookings> {
-  final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
-  DateTime _reservationDate = DateTime.now();
-  DateTime _checkInDate = DateTime.now();
-  DateTime _checkOutDate = DateTime.now();
-
-  Future<void> _selectDate(BuildContext context, DateTime initialDate, Function(DateTime) onDateSelected) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: BookingPage(),
     );
-    if (picked != null && picked != initialDate) {
-      onDateSelected(picked);
+  }
+}
+
+class BookingPage extends StatefulWidget {
+  @override
+  _BookingPageState createState() => _BookingPageState();
+}
+
+class _BookingPageState extends State<BookingPage> {
+  late Razorpay _razorpay;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print('Payment success: ${response.paymentId}');
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print('Payment error: ${response.code} - ${response.message}');
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
+    print('External wallet: ${response.walletName}');
+  }
+
+  void _startPayment() {
+    var options = {
+      'key': 'your_api_key',
+      'amount': 5000, // Amount in paise
+      'name': 'Acme Corp.',
+      'description': 'Booking Payment',
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print(e.toString());
     }
   }
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      print('Booking successful!');
-      print('Name: $_name');
-      print('Email: $_email');
-      print('Reservation Date: $_reservationDate');
-      print('CheckIn Date: $_checkInDate');
-      print('CheckOut Date: $_checkOutDate');
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
         centerTitle: true,
         toolbarHeight: 110.0,
+
       ),
       drawer: Drawer(
         child: ListView(
@@ -66,6 +99,7 @@ class _BookingsState extends State<Bookings> {
               leading: Icon(Icons.person),
               title: Text('My Profile'),
               onTap: () {
+                // Handle the Search tap
                 Navigator.pop(context);
               },
             ),
@@ -86,96 +120,49 @@ class _BookingsState extends State<Bookings> {
           ],
         ),
       ),
+
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: Container(
-              color: Colors.brown[400],
-              child: Center(
-                child: Text(
-                  'HOME',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-              ),
-            ),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+      PreferredSize(
+      preferredSize: Size.fromHeight(80.0),
+      child: Container(
+        color: Colors.brown[400],
+        child: Center(
+          child: Text(
+            'BOOKING CONFIRMED',
+            style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(labelText: 'Name'),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _name = value!;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(labelText: 'Number of Guests'),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter a valid Number of Guests';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _email = value!;
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Date of Reservation: ${_reservationDate.toLocal().toString().split(' ')[0]}"),
-                      trailing: Icon(Icons.keyboard_arrow_down),
-                      onTap: () => _selectDate(context, _reservationDate, (picked) {
-                        setState(() {
-                          _reservationDate = picked;
-                        });
-                      }),
-                    ),
-                    ListTile(
-                      title: Text("CheckIn: ${_checkInDate.toLocal().toString().split(' ')[0]}"),
-                      trailing: Icon(Icons.keyboard_arrow_down),
-                      onTap: () => _selectDate(context, _checkInDate, (picked) {
-                        setState(() {
-                          _checkInDate = picked;
-                        });
-                      }),
-                    ),
-                    ListTile(
-                      title: Text("CheckOut: ${_checkOutDate.toLocal().toString().split(' ')[0]}"),
-                      trailing: Icon(Icons.keyboard_arrow_down),
-                      onTap: () => _selectDate(context, _checkOutDate, (picked) {
-                        setState(() {
-                          _checkOutDate = picked;
-                        });
-                      }),
-                    ),
-                    SizedBox(height: 20.0),
-                    ElevatedButton(
-                      onPressed: _submitForm,
-                      child: Text('Book Room'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown[700], // Background color
-                        foregroundColor: Colors.white, // Text color
-                        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
-    );
+    ),
+            ListTile(
+              title: Text('CONGRATULATIONS!'),
+              subtitle: Text('The room you reserved has successfully booked.'),
+            ),
+            ListTile(
+              title: Text('Booking Details'),
+              subtitle: Text(''),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _startPayment,
+                    child: Text('Proceed to Payment'),
+                  ),
+                ],
+              ),
+            ),
+    ]
+              ),
+            );
+
   }
 }

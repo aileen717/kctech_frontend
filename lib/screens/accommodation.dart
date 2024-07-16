@@ -71,7 +71,7 @@ class _AccommodationState extends State<Accommodation> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[500],
+                color: Colors.brown[400],
               ),
               child: Text(
                 'Menu',
@@ -114,20 +114,11 @@ class _AccommodationState extends State<Accommodation> {
               color: Colors.brown[400],
               child: Center(
                 child: Text(
-                  'Accommodations',
+                  'ROOMS',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 15.0), // Spacer between title and buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _buildButton('All'),
-              _buildButton('Rooms'),
-              _buildButton('Cottages'),
-            ],
           ),
           SizedBox(height: 20.0), // Spacer below buttons
           Expanded(
@@ -160,7 +151,7 @@ class _AccommodationState extends State<Accommodation> {
     );
   }
 
-  Widget _buildButton(String label) {
+  Widget buildButton(String label) {
     return ElevatedButton(
       onPressed: () {
         print('Pressed $label');
@@ -243,6 +234,24 @@ class SelectedAccommodations extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.brown[100],
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.beach_access),
+            label: 'Accommodations',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmarks_outlined),
+            label: 'Bookings',
+          ),
+        ],
       ),
     );
   }

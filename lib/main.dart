@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
+import 'package:kandahar/screens/bookingdetails.dart';
+import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
-import 'package:kandahar/screens/bookings.dart';
 
 
 void main() => runApp(MaterialApp(
-initialRoute: '/bookings',
+initialRoute: '/booking',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),
 '/registration' : (context) => Registration(),
 '/accommodation' : (context) => Accommodation(),
-  '/bookings' : (context) => Bookings(),
+  '/booking' : (context) => Bookings(),
+  '/bookings' : (context) => BookingPage(),
 },
 ));
+
+
+
+
+
+
+
+
+
+
 
 class HomeScreen extends StatefulWidget {
 
@@ -29,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _widgetOptions = [
     MyHomePage(),
     Accommodation(),
-    Bookings(),
   ];
 
   void _onItemTapped(int index) {
@@ -57,8 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.bookmarks_outlined),
             label: 'Bookings',
           ),
-
-
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
