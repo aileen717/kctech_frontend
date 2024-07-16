@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:kandahar/screens/accommodation.dart';
 import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:kandahar/screens/bookings.dart';
@@ -10,23 +11,14 @@ import 'package:kandahar/screens/registration.dart';
 void main() => runApp(MaterialApp(
 initialRoute: '/booking',
 routes: {
-'/' : (context) => HomeScreen(),
-'/login' : (context) => Login(),
-'/registration' : (context) => Registration(),
-'/accommodation' : (context) => Accommodation(),
+  '/' : (context) => HomeScreen(),
+  '/login' : (context) => Login(),
+  '/registration' : (context) => Registration(),
+  '/accommodation' : (context) => Accommodation(),
   '/booking' : (context) => Bookings(),
   '/bookings' : (context) => BookingPage(),
-},
+  },
 ));
-
-
-
-
-
-
-
-
-
 
 
 class HomeScreen extends StatefulWidget {
@@ -48,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-    );
+    ),
   }
 }
