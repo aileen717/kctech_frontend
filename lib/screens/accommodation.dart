@@ -64,11 +64,13 @@ class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful>
 }
 
 class Accommodations {
+  final int id;
   final String name;
   final String type;
   final double price;
 
   Accommodations({
+    required this.id,
     required this.name,
     required this.type,
     required this.price,
@@ -76,6 +78,7 @@ class Accommodations {
 
   factory Accommodations.fromJson(Map<String, dynamic> json) {
     return Accommodations(
+      id: json['id'],
       name: json['name'],
       type: json['type'],
       price: json['price'].toDouble(),
@@ -143,17 +146,17 @@ class _AccommodationState extends State<Accommodation> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],

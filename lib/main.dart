@@ -5,16 +5,18 @@ import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/bookings.dart';
+import 'package:kandahar/screens/profile.dart';
 
 
 void main() => runApp(MaterialApp(
-initialRoute: '/',
+initialRoute: '/profile',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),
 '/registration' : (context) => Registration(),
 '/accommodation' : (context) => Accommodation(),
   '/bookings' : (context) => Bookings(),
+  '/profile' : (context) => Profile(),
 },
 ));
 

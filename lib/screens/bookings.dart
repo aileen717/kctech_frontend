@@ -70,17 +70,17 @@ class _BookingsState extends State<Bookings> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],
