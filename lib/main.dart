@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kandahar/screens/accommodation.dart';
+
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
@@ -10,6 +11,7 @@ import 'package:kandahar/screens/bookingdetails.dart';
 
 
 void main() => runApp(MaterialApp(
+  
 initialRoute: '/profile',
 routes: {
   '/' : (context) => HomeScreen(),
@@ -19,6 +21,7 @@ routes: {
   '/bookings' : (context) => Bookings(),
   '/profile' : (context) => Profile(),
   '/booking' : (context) => BookingPage(),
+
   },
 ));
 
