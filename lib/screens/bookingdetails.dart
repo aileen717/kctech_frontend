@@ -26,7 +26,7 @@ class _BookingsState extends State<Bookings> {
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _reservationDate,

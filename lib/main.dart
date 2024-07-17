@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:kandahar/screens/accommodation.dart';
-import 'package:kandahar/screens/availability.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
@@ -9,8 +8,9 @@ import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/profile.dart';
 import 'package:kandahar/screens/bookingdetails.dart';
 
+
 void main() => runApp(MaterialApp(
-initialRoute: '/booking',
+initialRoute: '/profile',
 routes: {
   '/' : (context) => HomeScreen(),
   '/login' : (context) => Login(),
@@ -18,7 +18,7 @@ routes: {
   '/accommodation' : (context) => Accommodation(),
   '/bookings' : (context) => Bookings(),
   '/profile' : (context) => Profile(),
-  '/bookings' : (context) => BookingPage(),
+  '/booking' : (context) => BookingPage(),
   },
 ));
 
@@ -67,6 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-    ),
+    );
   }
 }

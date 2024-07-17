@@ -14,14 +14,12 @@ class SelectedAccommodationsStateful extends StatefulWidget {
 
 class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful> {
   late String name;
-  late String type;
   late double price;
 
   @override
   void initState() {
     super.initState();
     name = widget.accommodations.name;
-    type = widget.accommodations.type;
     price = widget.accommodations.price;
   }
 
@@ -46,11 +44,6 @@ class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful>
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Type: $type',
-                  style: TextStyle(fontSize: 24),
-                ),
-                SizedBox(height: 10),
-                Text(
                   'Price: \$${price.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: 24),
                 ),
@@ -66,13 +59,11 @@ class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful>
 class Accommodations {
   final int id;
   final String name;
-  final String type;
   final double price;
 
   Accommodations({
     required this.id,
     required this.name,
-    required this.type,
     required this.price,
   });
 
@@ -80,7 +71,6 @@ class Accommodations {
     return Accommodations(
       id: json['id'],
       name: json['name'],
-      type: json['type'],
       price: json['price'].toDouble(),
     );
   }
@@ -238,10 +228,6 @@ class _AccommodationState extends State<Accommodation> {
             ),
             Text(
               'Name: ${accommodations.name}',
-              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
-            ),
-            Text(
-              'Type: ${accommodations.type}', // Display type here
               style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
             ),
             Text(

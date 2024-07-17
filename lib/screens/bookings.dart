@@ -49,7 +49,7 @@ class _BookingPageState extends State<BookingPage> {
   void _startPayment() {
     var options = {
       'key': 'your_api_key',
-      'amount': 5000, // Amount in paise
+      'amount': 5000,
       'name': 'Acme Corp.',
       'description': 'Booking Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
@@ -117,10 +117,10 @@ class _BookingPageState extends State<BookingPage> {
                 Navigator.pushReplacementNamed(context, '/login');
               },
             ),
+
           ],
         ),
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -136,36 +136,8 @@ class _BookingPageState extends State<BookingPage> {
               ),
             ),
           ),
-        ),
+        ],
       ),
-    ),
-            ListTile(
-              title: Text('CONGRATULATIONS!'),
-              subtitle: Text('The room you reserved has successfully booked.'),
-            ),
-            ListTile(
-              title: Text('Booking Details'),
-              subtitle: Text(''),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _startPayment,
-                    child: Text('Proceed to Payment'),
-                  ),
-                ],
-              ),
-            ),
-    ]
-              ),
-            );
-
+    );
   }
 }
