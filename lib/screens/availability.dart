@@ -2,35 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
-  final double price;
-
-  const Availability({Key? key, required this.price}) : super(key: key);
-
   @override
-  State<Availability> createState() => _AvailabilityState();
+  _AvailabilityState createState() => _AvailabilityState();
 }
 
 class _AvailabilityState extends State<Availability> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
-  final Map<DateTime, String> _labels = {
-    DateTime(2024, 7, 1): 'Reserved',
-    DateTime(2024, 7, 4): 'Reserved',
-    DateTime(2024, 7, 5): 'Reserved',
-    DateTime(2024, 7, 24): 'Reserved',
-    DateTime(2024, 7, 17): 'Reserved',
-    DateTime(2024, 7, 31): 'Reserved',
-  };
-
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  Map<DateTime, List<Event>> _events = {};
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +62,7 @@ class _AvailabilityState extends State<Availability> {
         ),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+        children: [
           PreferredSize(
             preferredSize: Size.fromHeight(80.0),
             child: Container(
@@ -97,85 +76,137 @@ class _AvailabilityState extends State<Availability> {
             ),
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  width: 200, // Adjust width as needed
-                  height: 150.0, // Adjust height as needed
-                  child: Image.asset(
-                    'assets/front.jpg',  // Replace with your image path
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: TableCalendar(
-                    firstDay: DateTime.utc(2020, 1, 1),
-                    lastDay: DateTime.utc(2030, 12, 31),
-                    focusedDay: _focusedDay,
-                    calendarFormat: _calendarFormat,
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                    onFormatChanged: (format) {
-                      if (_calendarFormat != format) {
-                        setState(() {
-                          _calendarFormat = format;
-                        });
-                      }
-                    },
-                    onPageChanged: (focusedDay) {
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TableCalendar(
+                  firstDay: DateTime.utc(2020, 1, 1),
+                  lastDay: DateTime.utc(2030, 12, 31),
+                  focusedDay: _focusedDay,
+                  calendarFormat: _calendarFormat,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
+                    });
+                  },
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      setState(() {
+                        _calendarFormat = format;
+                      });
+                    }
+                  },
+                  onPageChanged: (focusedDay) {
+                    _focusedDay = focusedDay;
+                  },
+                  eventLoader: (day) {
+                    return _events[day] ?? [];
+                  },
+                  calendarBuilders: CalendarBuilders(
+                    defaultBuilder: (context, day, focusedDay) {
+                      return _buildCalendarCell(day, focusedDay);
                     },
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, focusedDay) {
-                        String? label = _labels[DateTime(day.year, day.month, day.day)];
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${day.day}',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              if (label != null)
-                                Text(
-                                  label,
-                                  style: TextStyle(fontSize: 10, color: Colors.grey),
-                                ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Handle booking logic here
-                      print('Book Room');
+                    todayBuilder: (context, day, focusedDay) {
+                      return _buildCalendarCell(day, focusedDay, textColor: Colors.blue);
                     },
-                    child: Text('Book Room'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.brown[700], // Background color
-                      foregroundColor: Colors.white, // Text color
-                      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-                    ),
+                    selectedBuilder: (context, day, focusedDay) {
+                      return _buildCalendarCell(day, focusedDay, textColor: Colors.red);
+                    },
                   ),
+                  rowHeight: 80,
+                  enabledDayPredicate: (day) {
+                    // Enable day if it doesn't have a reservation
+                    return !_events.containsKey(day) || _events[day]!.isEmpty;
+                  },
                 ),
-              ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildCalendarCell(DateTime day, DateTime focusedDay, {Color? textColor}) {
+    final isSelected = isSameDay(_selectedDay, day);
+    final isToday = isSameDay(DateTime.now(), day);
+
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            day.day.toString(),
+            style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
+          ),
+          SizedBox(height: 2),
+          ElevatedButton(
+            onPressed: () {
+              _showReservationDialog(day);
+            },
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
+              ),
+              minimumSize: MaterialStateProperty.all<Size>(
+                Size(0, 0),
+              ),
+            ),
+            child: Text(
+              'Reserve',
+              style: TextStyle(fontSize: 8.0),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  void _showReservationDialog(DateTime day) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Make a Reservation'),
+          content: Text('Would you like to make a reservation for ${day.toLocal()}?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _makeReservation(day);
+                Navigator.of(context).pop();
+              },
+              child: Text('Reserve'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _makeReservation(DateTime day) {
+    setState(() {
+      if (_events[day] == null) {
+        _events[day] = [];
+      }
+      _events[day]!.add(Event('Reservation'));
+    });
+  }
 }
+
+class Event {
+  final String title;
+
+  Event(this.title);
+}
+

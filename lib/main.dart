@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
+import 'package:kandahar/screens/availability.dart';
 import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
@@ -8,12 +9,13 @@ import 'package:kandahar/screens/registration.dart';
 
 
 void main() => runApp(MaterialApp(
-initialRoute: '/booking',
+initialRoute: '/availability',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),
 '/registration' : (context) => Registration(),
 '/accommodation' : (context) => Accommodation(),
+  '/availability' : (context) => Availability(),
   '/booking' : (context) => Bookings(),
   '/bookings' : (context) => BookingPage(),
 },
