@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
+
   @override
   _AvailabilityState createState() => _AvailabilityState();
 }
@@ -10,6 +11,7 @@ class _AvailabilityState extends State<Availability> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+
   Map<DateTime, List<Event>> _events = {};
 
   @override
@@ -45,17 +47,17 @@ class _AvailabilityState extends State<Availability> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],

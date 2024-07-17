@@ -3,18 +3,74 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(MaterialApp(
-    home: Accommodation(),
-  ));
+class SelectedAccommodationsStateful extends StatefulWidget {
+  final Accommodations accommodations;
+
+  SelectedAccommodationsStateful({required this.accommodations});
+
+  @override
+  _SelectedAccommodationsState createState() => _SelectedAccommodationsState();
+}
+
+class _SelectedAccommodationsState extends State<SelectedAccommodationsStateful> {
+  late String name;
+  late String type;
+  late double price;
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.accommodations.name;
+    type = widget.accommodations.type;
+    price = widget.accommodations.price;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: Center(
+        child: Card(
+          margin: EdgeInsets.all(16.0),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Name: $name',
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Type: $type',
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Price: \$${price.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class Accommodations {
+  final int id;
   final String name;
   final String type;
   final double price;
 
   Accommodations({
+    required this.id,
     required this.name,
     required this.type,
     required this.price,
@@ -22,6 +78,7 @@ class Accommodations {
 
   factory Accommodations.fromJson(Map<String, dynamic> json) {
     return Accommodations(
+      id: json['id'],
       name: json['name'],
       type: json['type'],
       price: json['price'].toDouble(),
@@ -89,17 +146,17 @@ class _AccommodationState extends State<Accommodation> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],
@@ -127,8 +184,6 @@ class _AccommodationState extends State<Accommodation> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
                   List<Accommodations> accommodations = snapshot.data!;
                   return Padding(
@@ -136,7 +191,7 @@ class _AccommodationState extends State<Accommodation> {
                     child: ListView.builder(
                       itemCount: accommodations.length,
                       itemBuilder: (context, index) {
-                        return _buildCard(accommodations[index]);
+                        return _buildCard(context, accommodations[index]);
                       },
                     ),
                   );
@@ -165,7 +220,7 @@ class _AccommodationState extends State<Accommodation> {
     );
   }
 
-  Widget _buildCard(Accommodations accommodations) {
+  Widget _buildCard(BuildContext context, Accommodations accommodations) {
     return Card(
       margin: EdgeInsets.all(8.0),
       color: Colors.brown[300],
@@ -182,6 +237,10 @@ class _AccommodationState extends State<Accommodation> {
               ),
             ),
             Text(
+              'Name: ${accommodations.name}',
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+            ),
+            Text(
               'Type: ${accommodations.type}', // Display type here
               style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
             ),
@@ -195,63 +254,10 @@ class _AccommodationState extends State<Accommodation> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SelectedAccommodations(accommodations: accommodations),
+              builder: (context) => SelectedAccommodationsStateful(accommodations: accommodations),
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class SelectedAccommodations extends StatelessWidget {
-  final Accommodations accommodations;
-
-  SelectedAccommodations({required this.accommodations});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(accommodations.name),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Name: ${accommodations.name}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              'Type: ${accommodations.type}',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Price: ${accommodations.price}',
-              style: TextStyle(fontSize: 24),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.brown[100],
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.beach_access),
-            label: 'Accommodations',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmarks_outlined),
-            label: 'Bookings',
-          ),
-        ],
       ),
     );
   }

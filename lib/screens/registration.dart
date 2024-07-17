@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 
 class Registration extends StatefulWidget {
@@ -12,6 +15,10 @@ class _SignupState extends State<Registration> {
   String password = '';
   String address = '';
   String phoneNumber = '';
+  bool _obscure = true;
+  IconData _obscureIcon = Icons.visibility_off;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,11 +87,26 @@ class _SignupState extends State<Registration> {
                       height: 10.0,
                     ),
                     TextFormField(
-                      obscureText: true,
+                      obscureText: _obscure,
                       decoration: InputDecoration(
                         label: Text('Password'),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.visibility_off_outlined),
+                          onPressed: (){
+                            setState(() {
+                              _obscure=!_obscure;
+                              if(_obscure){
+                                _obscureIcon = Icons.visibility_off;
+                              }else{
+                                _obscureIcon = Icons.visibility_off;
+                              }
+                            });
+                          },
+                        ),
+
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -104,7 +126,6 @@ class _SignupState extends State<Registration> {
                     ),
                     SizedBox(height: 10.0,),
                     TextFormField(
-                      obscureText: true,
                       decoration: InputDecoration(
                         label: Text('Address'),
                         border: OutlineInputBorder(
@@ -122,7 +143,6 @@ class _SignupState extends State<Registration> {
                     ),
                     SizedBox(height: 10.0,),
                     TextFormField(
-                      obscureText: true,
                       decoration: InputDecoration(
                         label: Text('Phone Number'),
                         border: OutlineInputBorder(
