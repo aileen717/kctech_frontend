@@ -15,14 +15,13 @@ class _AccommodationState extends State<Accommodation> {
         title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
         centerTitle: true,
-        toolbarHeight: 70.0,
+        toolbarHeight: 110.0,
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           PreferredSize(
-            preferredSize: Size.fromHeight(150.0),
+            preferredSize: Size.fromHeight(80.0),
             child: Container(
               color: Colors.brown[400],
               child: Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
@@ -74,10 +75,12 @@ class _AvailabilityState extends State<Availability> {
                       return _buildCalendarCell(day, focusedDay);
                     },
                     todayBuilder: (context, day, focusedDay) {
-                      return _buildCalendarCell(day, focusedDay, textColor: Colors.blue);
+                      return _buildCalendarCell(
+                          day, focusedDay, textColor: Colors.blue);
                     },
                     selectedBuilder: (context, day, focusedDay) {
-                      return _buildCalendarCell(day, focusedDay, textColor: Colors.red);
+                      return _buildCalendarCell(
+                          day, focusedDay, textColor: Colors.red);
                     },
                   ),
                   rowHeight: 80,
@@ -94,7 +97,8 @@ class _AvailabilityState extends State<Availability> {
     );
   }
 
-  Widget _buildCalendarCell(DateTime day, DateTime focusedDay, {Color? textColor}) {
+  Widget _buildCalendarCell(DateTime day, DateTime focusedDay,
+      {Color? textColor}) {
     final isSelected = isSameDay(_selectedDay, day);
     final isToday = isSameDay(DateTime.now(), day);
 
@@ -130,13 +134,15 @@ class _AvailabilityState extends State<Availability> {
       ),
     );
   }
+
   void _showReservationDialog(DateTime day) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Make a Reservation'),
-          content: Text('Would you like to make a reservation for ${day.toLocal()}?'),
+          content: Text(
+              'Would you like to make a reservation for ${day.toLocal()}?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -148,6 +154,13 @@ class _AvailabilityState extends State<Availability> {
               onPressed: () {
                 _makeReservation(day);
                 Navigator.of(context).pop();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Bookings(reservationDate: day),
+                  ),
+                );
               },
               child: Text('Reserve'),
             ),
@@ -166,10 +179,8 @@ class _AvailabilityState extends State<Availability> {
     });
   }
 }
-
 class Event {
   final String title;
 
   Event(this.title);
 }
-

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
 import 'package:kandahar/screens/home.dart'; // Import the correct home screen widget
+
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _widgetOptions = [
+
     MyHomePage(), // Assuming MyHomePage is your home screen widget
     Accommodation(),
     Bookings(),

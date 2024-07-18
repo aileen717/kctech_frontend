@@ -1,41 +1,48 @@
 import 'package:flutter/material.dart';
-
-Future<List<DateTime>> fetchAvailableDates() async {
-  await Future.delayed(Duration(seconds: 1));
-  return List.generate(10, (index) => DateTime.now().add(Duration(days: index)));
-}
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class Bookings extends StatefulWidget {
+  final DateTime reservationDate;
+
+  const Bookings({Key? key, required this.reservationDate}) : super(key: key);
+
   @override
   State<Bookings> createState() => _BookingsState();
 }
 
 class _BookingsState extends State<Bookings> {
   final _formKey = GlobalKey<FormState>();
-  DateTime _reservationDate = DateTime.now();
+  DateTime _checkInDate = DateTime.now();
   TimeOfDay _checkInTime = TimeOfDay.now();
+  DateTime _checkoutDate = DateTime.now().add(Duration(days: 1));
   TimeOfDay _checkOutTime = TimeOfDay.now();
 
-  @override
-  void initState() {
-    super.initState();
-    fetchAvailableDates().then((dates) {
+  Future<void> _selectCheckInDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _checkInDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _checkInDate) {
       setState(() {
-        _reservationDate = dates.isNotEmpty ? dates[0] : DateTime.now();
+        _checkInDate = picked;
       });
-    });
+    }
   }
+
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _reservationDate,
-      firstDate: DateTime.now(),
+      initialDate: _checkoutDate,
+      firstDate: _checkInDate.add(Duration(days: 1)),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != _reservationDate) {
+    if (picked != null && picked != _checkoutDate) {
       setState(() {
-        _reservationDate = picked;
+        _checkoutDate = picked;
       });
     }
   }
@@ -54,8 +61,9 @@ class _BookingsState extends State<Bookings> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       print('Booking successful!');
-      print('Reservation Date: $_reservationDate');
+      print('CheckIn Date: $_checkInDate');
       print('CheckIn Time: $_checkInTime');
+      print('Checkout Date: $_checkoutDate');
       print('CheckOut Time: $_checkOutTime');
     }
   }
@@ -92,7 +100,8 @@ class _BookingsState extends State<Bookings> {
                 child: ListView(
                   children: [
                     ListTile(
-                      title: Text("Date of Reservation: ${_reservationDate.toLocal().toString().split(' ')[0]}"),
+                      title: Text("Reservation Date: ${DateFormat('yyyy-MM-dd').format(widget.reservationDate)}"),
+                      trailing: Icon(Icons.calendar_today),
                     ),
                     ListTile(
                       title: Text("CheckIn Time: ${_checkInTime.format(context)}"),
@@ -102,6 +111,11 @@ class _BookingsState extends State<Bookings> {
                           _checkInTime = picked;
                         });
                       }),
+                    ),
+                    ListTile(
+                      title: Text("CheckOut Date: ${DateFormat('yyyy-MM-dd').format(_checkoutDate)}"),
+                      trailing: Icon(Icons.calendar_today),
+                      onTap: () => _selectCheckOutDate(context),
                     ),
                     ListTile(
                       title: Text("CheckOut Time: ${_checkOutTime.format(context)}"),
@@ -115,21 +129,20 @@ class _BookingsState extends State<Bookings> {
                     SizedBox(height: 20.0),
                     ElevatedButton(
                       onPressed: _submitForm,
-                    child: Text('Continue'),
-                    style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown[700], // Background color
-                    foregroundColor: Colors.white, // Text color
-                    padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                      child: Text('Continue'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown[700], // Background color
+                        foregroundColor: Colors.white, // Text color
+                        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                      ),
                     ),
-                    ),
-                  ]
+                  ],
                 ),
               ),
-    ),
-    ),
-    ]
             ),
-          );
-
+          ),
+        ],
+      ),
+    );
   }
 }
