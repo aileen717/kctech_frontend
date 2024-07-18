@@ -32,7 +32,8 @@ class _BookingsState extends State<Bookings> {
     }
   }
 
-  Future<void> _selectCheckOutDate(BuildContext context) async {
+
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _checkoutDate,
@@ -75,46 +76,6 @@ class _BookingsState extends State<Bookings> {
         backgroundColor: Colors.brown[600],
         centerTitle: true,
         toolbarHeight: 110.0,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown[900],
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

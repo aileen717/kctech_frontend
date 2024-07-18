@@ -12,6 +12,12 @@ class MyApp extends StatelessWidget {
       title: '',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'YourCustomFont', // Use your custom font family name here
+            fontSize: 24.0,
+          ),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -53,48 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.brown[600],
         centerTitle: true,
         toolbarHeight: 100.0,
-
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown[500],
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              onTap: () {
-                // Handle the Search tap
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
       ),
 
       body: Column(

@@ -1,57 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:kandahar/screens/availability.dart';
 
-class AccommodationPage extends StatelessWidget {
+class Accommodation extends StatefulWidget {
+  @override
+  State<Accommodation> createState() => _AccommodationState();
+}
+
+class _AccommodationState extends State<Accommodation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
         centerTitle: true,
         toolbarHeight: 110.0,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown[400],
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              onTap: () {
-                // Handle the Profile tap
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,32 +32,36 @@ class AccommodationPage extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(16.0),
-              children: [
-                buildRoomCard(
-                  roomTitle: 'Deluxe Room',
-                  imagePath: 'assets/Room1.jpg',
-                  description: 'Max: 4 Persons',
-                  price: 'PHP 3,300',
-                  context: context,
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Card(
+              color: Colors.brown[100],
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Accommodation Details',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Name: Room 1',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Type: Deluxe Room',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Price: \$200.00',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
-                buildRoomCard(
-                  roomTitle: 'Standard Room',
-                  imagePath: 'assets/Room4.jpg',
-                  description: 'Max: 2 Persons',
-                  price: 'PHP 2,000',
-                  context: context,
-                ),
-                buildRoomCard(
-                  roomTitle: 'Single Room',
-                  imagePath: 'assets/Room3.jpg',
-                  description: 'Max: 1 Person',
-                  price: 'PHP 1,200',
-                  context: context,
-                ),
-              ],
+              ),
             ),
           ),
         ],
@@ -101,84 +69,16 @@ class AccommodationPage extends StatelessWidget {
     );
   }
 
-  Widget buildRoomCard({
-    required String roomTitle,
-    required String imagePath,
-    required String description,
-    required String price,
-    required BuildContext context,
-  }) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              roomTitle,
-              style: TextStyle(
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Image.asset(
-              imagePath,
-              height: 200.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              price,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.grey[700],
-              ),
-            ),
-            Text(
-              'per night',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to Availability screen with the current roomTitle
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Availability(),
-                      ),
-                    );
-                  },
-                  child: Text('Check Availability'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown[400],
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+  Widget buildButton(String label) {
+    return ElevatedButton(
+      onPressed: () {
+        print('Pressed $label');
+      },
+      child: Text(label),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.brown[200],
+        foregroundColor: Colors.black,
+        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
       ),
     );
   }
