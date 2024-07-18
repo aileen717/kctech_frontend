@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:kandahar/screens/accommodation.dart';
-import 'package:kandahar/screens/availability.dart';
-import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
@@ -12,14 +10,12 @@ import 'package:kandahar/screens/profile.dart';
 import 'package:kandahar/screens/bookingdetails.dart';
 
 void main() => runApp(MaterialApp(
-initialRoute: '/availability',
+initialRoute: '/accommodation',
 routes: {
 '/' : (context) => HomeScreen(),
 '/login' : (context) => Login(),
 '/registration' : (context) => Registration(),
-'/accommodation' : (context) => Accommodation(),
-  '/availability' : (context) => Availability(),
-  '/booking' : (context) => Bookings(),
+'/accommodation' : (context) => AccommodationPage(),
   '/bookings' : (context) => BookingPage(),
   },
 ));
@@ -36,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _widgetOptions = [
     MyHomePage(),
-    Accommodation(),
+    AccommodationPage(),
   ];
 
   void _onItemTapped(int index) {
