@@ -32,21 +32,19 @@ class _BookingPageState extends State<BookingPage> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Do something when payment succeeds
     print('Payment success: ${response.paymentId}');
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
+
     print('Payment error: ${response.code} - ${response.message}');
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    // Do something when an external wallet is selected
     print('External wallet: ${response.walletName}');
   }
 
-  void _startPayment() {
+  void startPayment() {
     var options = {
       'key': 'your_api_key',
       'amount': 5000,
@@ -79,48 +77,7 @@ class _BookingPageState extends State<BookingPage> {
         toolbarHeight: 110.0,
 
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown[500],
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              onTap: () {
-                // Handle the Search tap
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
 
-          ],
-        ),
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

@@ -23,46 +23,7 @@ class _AvailabilityState extends State<Availability> {
         centerTitle: true,
         toolbarHeight: 110.0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown[500],
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-            ),
-          ],
-        ),
-      ),
+
       body: Column(
         children: [
           PreferredSize(
@@ -153,7 +114,7 @@ class _AvailabilityState extends State<Availability> {
               _showReservationDialog(day);
             },
             style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding:MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
               ),
               minimumSize: MaterialStateProperty.all<Size>(

@@ -4,20 +4,11 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         title: Text('User Profile'),
         backgroundColor: Colors.brown,
         centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -42,118 +33,168 @@ class Profile extends StatelessWidget {
                   thickness: 5.0,
                 ),
                 SizedBox(height: 30.0),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.person,
-                      color: Colors.brown,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      'Name:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                        letterSpacing: 2.0,
-                      ),
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      '',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30.0),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.email,
-                      color: Colors.brown,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      'Email:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                        letterSpacing: 2.0,
-                      ),
-                    ),
-                    SizedBox(width: 10.0),
-                    Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20.0,
+                // Name Card
+                Card(
+                  color: Colors.grey[300],
+                  elevation: 3.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.person,
+                          color: Colors.brown,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30.0),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      color: Colors.brown,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      'Address:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                        letterSpacing: 2.0,
-                      ),
-                    ),
-                    SizedBox(width: 10.0),
-                    Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20.0,
+                        SizedBox(width: 10.0),
+                        Text(
+                          'Name:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                          ),
                         ),
-                      ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          '',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(height: 30.0),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.phone_android_rounded,
-                      color: Colors.brown,
+                // Email Card
+                Card(
+                  color: Colors.grey[300],
+                  elevation: 3.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.email,
+                          color: Colors.brown,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          'Email:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      'Phone Number:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                        letterSpacing: 2.0,
-                      ),
+                  ),
+                ),
+                SizedBox(height: 30.0),
+                Card(
+                  color: Colors.grey[300],
+                  elevation: 3.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          color: Colors.brown,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          'Address:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      '',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),
+                  ),
+                ),
+                SizedBox(height: 30.0),
+                // Phone Number Card
+                Card(
+                  color: Colors.grey[300],
+                  elevation: 3.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.phone_android_rounded,
+                          color: Colors.brown,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          'Phone Number:',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          '',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
+            ),
+            SizedBox(height: 30.0),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                child: Text('Log Out'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[300],
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                ),
+              ),
             ),
           ],
         ),
