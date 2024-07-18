@@ -1,69 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:kandahar/screens/availability.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Accommodation(),
-  ));
-}
-
-class Accommodations {
-  final String name;
-  final String type;
-  final double price;
-
-  Accommodations({
-    required this.name,
-    required this.type,
-    required this.price,
-  });
-
-  factory Accommodations.fromJson(Map<String, dynamic> json) {
-    return Accommodations(
-      name: json['name'],
-      type: json['type'],
-      price: json['price'].toDouble(),
-    );
-  }
-}
-
-class Accommodation extends StatefulWidget {
-  @override
-  State<Accommodation> createState() => _AccommodationState();
-}
-
-class _AccommodationState extends State<Accommodation> {
-  late Future<List<Accommodations>> accommodations;
-
-  Future<List<Accommodations>> fetchData() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:8080/api/v1/all'));
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      List<Accommodations> accommodations = data.map((json) => Accommodations.fromJson(json)).toList();
-      return accommodations;
-    } else {
-      throw Exception('Failed to load products');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    accommodations = fetchData();
-  }
-
+class AccommodationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[400],
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
         centerTitle: true,
-        toolbarHeight: 70.0,
+        toolbarHeight: 110.0,
       ),
       drawer: Drawer(
         child: ListView(
@@ -85,6 +32,7 @@ class _AccommodationState extends State<Accommodation> {
               leading: Icon(Icons.person),
               title: Text('My Profile'),
               onTap: () {
+                // Handle the Profile tap
                 Navigator.pop(context);
               },
             ),
@@ -109,7 +57,7 @@ class _AccommodationState extends State<Accommodation> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           PreferredSize(
-            preferredSize: Size.fromHeight(150.0),
+            preferredSize: Size.fromHeight(80.0),
             child: Container(
               color: Colors.brown[400],
               child: Center(
@@ -120,30 +68,32 @@ class _AccommodationState extends State<Accommodation> {
               ),
             ),
           ),
-          SizedBox(height: 20.0), // Spacer below buttons
           Expanded(
-            child: FutureBuilder<List<Accommodations>>(
-              future: accommodations,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (snapshot.hasData) {
-                  List<Accommodations> accommodations = snapshot.data!;
-                  return Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: accommodations.length,
-                      itemBuilder: (context, index) {
-                        return _buildCard(accommodations[index]);
-                      },
-                    ),
-                  );
-                } else {
-                  return Center(child: Text('No data available'));
-                }
-              },
+            child: ListView(
+              padding: EdgeInsets.all(16.0),
+              children: [
+                buildRoomCard(
+                  roomTitle: 'Deluxe Room',
+                  imagePath: 'assets/Room1.jpg',
+                  description: 'Max: 4 Persons',
+                  price: 'PHP 3,300',
+                  context: context,
+                ),
+                buildRoomCard(
+                  roomTitle: 'Standard Room',
+                  imagePath: 'assets/Room4.jpg',
+                  description: 'Max: 2 Persons',
+                  price: 'PHP 2,000',
+                  context: context,
+                ),
+                buildRoomCard(
+                  roomTitle: 'Single Room',
+                  imagePath: 'assets/Room3.jpg',
+                  description: 'Max: 1 Person',
+                  price: 'PHP 1,200',
+                  context: context,
+                ),
+              ],
             ),
           ),
         ],
@@ -151,107 +101,84 @@ class _AccommodationState extends State<Accommodation> {
     );
   }
 
-  Widget buildButton(String label) {
-    return ElevatedButton(
-      onPressed: () {
-        print('Pressed $label');
-      },
-      child: Text(label),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.brown[200],
-        foregroundColor: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-      ),
-    );
-  }
-
-  Widget _buildCard(Accommodations accommodations) {
+  Widget buildRoomCard({
+    required String roomTitle,
+    required String imagePath,
+    required String description,
+    required String price,
+    required BuildContext context,
+  }) {
     return Card(
-      margin: EdgeInsets.all(8.0),
-      color: Colors.brown[300],
-      child: ListTile(
-        title: Column(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
-              accommodations.name,
+              roomTitle,
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 22.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Image.asset(
+              imagePath,
+              height: 200.0,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 10.0),
+            Text(
+              description,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.grey[700],
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Text(
+              price,
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.grey[700],
               ),
             ),
             Text(
-              'Type: ${accommodations.type}', // Display type here
-              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+              'per night',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey[700],
+              ),
             ),
-            Text(
-              'Price: ${accommodations.price.toString()}',
-              style: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
-            ),
-          ],
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SelectedAccommodations(accommodations: accommodations),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class SelectedAccommodations extends StatelessWidget {
-  final Accommodations accommodations;
-
-  SelectedAccommodations({required this.accommodations});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(accommodations.name),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Name: ${accommodations.name}',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              'Type: ${accommodations.type}',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Price: ${accommodations.price}',
-              style: TextStyle(fontSize: 24),
+            SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to Availability screen with the current roomTitle
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Availability(),
+                      ),
+                    );
+                  },
+                  child: Text('Check Availability'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.brown[400],
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.brown[100],
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.beach_access),
-            label: 'Accommodations',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmarks_outlined),
-            label: 'Bookings',
-          ),
-        ],
       ),
     );
   }
