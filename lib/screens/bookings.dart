@@ -85,7 +85,7 @@ class _BookingPageState extends State<BookingPage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.brown[900],
+                color: Colors.brown[500],
               ),
               child: Text(
                 'Menu',
@@ -104,17 +104,17 @@ class _BookingPageState extends State<BookingPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.history_sharp),
-              title: Text('History'),
+              leading: Icon(Icons.account_circle_outlined),
+              title: Text('Account'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_circle_outlined),
-              title: Text('Account'),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ],
@@ -122,16 +122,19 @@ class _BookingPageState extends State<BookingPage> {
       ),
 
       body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-      PreferredSize(
-      preferredSize: Size.fromHeight(80.0),
-      child: Container(
-        color: Colors.brown[400],
-        child: Center(
-          child: Text(
-            'BOOKING CONFIRMED',
-            style: TextStyle(color: Colors.white, fontSize: 20.0),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          PreferredSize(
+            preferredSize: Size.fromHeight(80.0),
+            child: Container(
+              color: Colors.brown[400],
+              child: Center(
+                child: Text(
+                  'BOOOKINGS',
+                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+                ),
+              ),
+            ),
           ),
         ),
       ),
