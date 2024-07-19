@@ -18,19 +18,19 @@ class _AvailabilityState extends State<Availability> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
-        backgroundColor: Colors.brown[200],
+        backgroundColor: Colors.brown[500],
         centerTitle: true,
         toolbarHeight: 110.0,
       ),
-
       body: Column(
         children: [
           PreferredSize(
             preferredSize: Size.fromHeight(80.0),
             child: Container(
-              color: Colors.brown[400],
+              color: Colors.brown[300],
               child: Center(
                 child: Text(
                   'Check Availability',
@@ -118,7 +118,7 @@ class _AvailabilityState extends State<Availability> {
               _showReservationDialog(day);
             },
             style: ButtonStyle(
-              padding:MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
               ),
               minimumSize: MaterialStateProperty.all<Size>(
@@ -127,7 +127,7 @@ class _AvailabilityState extends State<Availability> {
             ),
             child: Text(
               'Reserve',
-              style: TextStyle(fontSize: 8.0),
+              style: TextStyle(fontSize: 7.0),
             ),
           ),
         ],
@@ -140,7 +140,7 @@ class _AvailabilityState extends State<Availability> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Make a Reservation'),
+          title: Text('Make Reservation'),
           content: Text(
               'Would you like to make a reservation for ${day.toLocal()}?'),
           actions: [
@@ -154,7 +154,6 @@ class _AvailabilityState extends State<Availability> {
               onPressed: () {
                 _makeReservation(day);
                 Navigator.of(context).pop();
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(

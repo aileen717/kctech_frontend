@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
-import 'package:kandahar/screens/home.dart'; // Import the correct home screen widget
+import 'package:kandahar/screens/bookings.dart';
+import 'package:kandahar/screens/home.dart';
 
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
-import 'package:kandahar/screens/bookingdetails.dart';
-import 'package:kandahar/screens/summary.dart';
-import 'package:kandahar/screens/confirmation.dart';
 
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/',
+  initialRoute: '/login',
   routes: {
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
     '/accommodation' : (context) => Accommodation(),
-    '/bookings' : (context) => Bookings(),
+    '/bookingPage' : (context) => BookingPage(),
     '/profile' : (context) => Profile(),
-    '/summary' : (context) => Summary(),
-    '/confirmation' : (context) => Confirmation(),
   },
 ));
 
@@ -34,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _widgetOptions = [
 
-    MyHomePage(), // Assuming MyHomePage is your home screen widget
+    MyHomePage(),
     Accommodation(),
-    Bookings(),
+    BookingPage(),
     Profile(),
   ];
 

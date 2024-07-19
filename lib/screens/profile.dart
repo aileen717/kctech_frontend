@@ -4,6 +4,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey,
       appBar: AppBar(
         title: Text('User Profile'),
@@ -67,7 +68,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 20.0),
                 // Email Card
                 Card(
                   color: Colors.grey[300],
@@ -104,7 +105,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 20.0),
                 Card(
                   color: Colors.grey[300],
                   elevation: 3.0,
@@ -140,7 +141,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 20.0),
                 // Phone Number Card
                 Card(
                   color: Colors.grey[300],
@@ -177,7 +178,7 @@ class Profile extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             Container(
               width: double.infinity,
               child: ElevatedButton(

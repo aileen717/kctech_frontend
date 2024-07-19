@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Booking Details',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Summary(),
-    );
-  }
-}
+import 'package:kandahar/screens/confirmation.dart';
 
 class Summary extends StatefulWidget {
+  final DateTime reservationDate;
+
+  Summary({Key? key, required this.reservationDate}) : super(key: key);
+
   @override
   State<Summary> createState() => _SummaryState();
 }
@@ -26,26 +14,14 @@ class _SummaryState extends State<Summary> {
   Map<String, dynamic> bookingDetails = {
     'guestName': 'John Doe',
     'guestEmail': 'johndoe@example.com',
-    'guestPhone': '+1234567890',
     'checkInDate': 'August 15, 2024',
     'checkInTime': '3:00 PM',
     'checkOutDate': 'August 18, 2024',
     'checkOutTime': '12:00 PM',
     'roomType': 'Deluxe Room',
-    'numAdults': 2,
-    'numChildren': 1,
-    'specialRequests': 'Non-smoking room, Extra bed',
-    'roomRate': 150,
-    'numNights': 3,
-    'additionalCharges': 0,
     'totalAmount': 450,
-    'paymentMethod': 'Credit Card (Visa)',
-    'paymentStatus': 'Paid',
-    'transactionId': '#1234567890',
     'resortName': 'Kandahar Cottages',
-    'resortAddress': '123 Resort Avenue, Beach City, State, ZIP',
     'resortPhone': '+9876543210',
-    'resortEmail': 'info@kandaharcottages.com',
     'resortWebsite': 'www.kandaharcottages.com',
   };
 
@@ -75,7 +51,6 @@ class _SummaryState extends State<Summary> {
               _buildSectionTitle('Guest Information'),
               _buildDetailRow('Name', bookingDetails['guestName']),
               _buildDetailRow('Email', bookingDetails['guestEmail']),
-              _buildDetailRow('Phone Number', bookingDetails['guestPhone']),
               SizedBox(height: 20.0),
               _buildSectionTitle('Reservation Details'),
               _buildDetailRow('Check-in Date', bookingDetails['checkInDate']),
@@ -83,32 +58,24 @@ class _SummaryState extends State<Summary> {
               _buildDetailRow('Check-out Date', bookingDetails['checkOutDate']),
               _buildDetailRow('Check-out Time', bookingDetails['checkOutTime']),
               _buildDetailRow('Room Type', bookingDetails['roomType']),
-              _buildDetailRow('Number of Adults', bookingDetails['numAdults'].toString()),
-              _buildDetailRow('Number of Children', bookingDetails['numChildren'].toString()),
-              _buildDetailRow('Special Requests', bookingDetails['specialRequests']),
               SizedBox(height: 20.0),
-              _buildSectionTitle('Total Charges'),
-              _buildDetailRow('Room Rate per Night', '\$${bookingDetails['roomRate']}'),
-              _buildDetailRow('Number of Nights', bookingDetails['numNights'].toString()),
-              _buildDetailRow('Additional Charges', '\$${bookingDetails['additionalCharges']}'),
               _buildDetailRow('Total Amount', '\$${bookingDetails['totalAmount']}'),
-              SizedBox(height: 20.0),
-              _buildSectionTitle('Payment Information'),
-              _buildDetailRow('Payment Method', bookingDetails['paymentMethod']),
-              _buildDetailRow('Payment Status', bookingDetails['paymentStatus']),
-              _buildDetailRow('Transaction ID', bookingDetails['transactionId']),
               SizedBox(height: 20.0),
               _buildSectionTitle('Contact Information'),
               _buildDetailRow('Resort Name', bookingDetails['resortName']),
-              _buildDetailRow('Address', bookingDetails['resortAddress']),
               _buildDetailRow('Phone', bookingDetails['resortPhone']),
-              _buildDetailRow('Email', bookingDetails['resortEmail']),
               _buildDetailRow('Website', bookingDetails['resortWebsite']),
-              SizedBox(height: 20.0),
+              SizedBox(height: 30.0),
 
               // Button Section
               ElevatedButton(
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Confirmation(),
+                    ),
+                  );
                 },
                 child: Text(
                   'Confirm Reservation',
@@ -119,10 +86,11 @@ class _SummaryState extends State<Summary> {
                   backgroundColor: Colors.brown[400],
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
+
             ],
           ),
         ),
