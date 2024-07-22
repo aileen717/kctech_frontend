@@ -102,40 +102,48 @@ class _AvailabilityState extends State<Availability> {
     final isSelected = isSameDay(_selectedDay, day);
     final isToday = isSameDay(DateTime.now(), day);
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            day.day.toString(),
-            style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
-          ),
-          SizedBox(height: 2),
-          ElevatedButton(
-            onPressed: () {
-              _showReservationDialog(day);
-            },
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-              ),
-              minimumSize: MaterialStateProperty.all<Size>(
-                Size(0, 0),
-              ),
+    return GestureDetector(
+      onTap: () {
+        _showReservationDialog(day);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              day.day.toString(),
+              style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
             ),
-            child: Text(
-              'Reserve',
-              style: TextStyle(fontSize: 7.0),
-            ),
-          ),
-        ],
+            SizedBox(height: 2),
+
+            if (isSelected)
+              Container(
+                width: 6.0,
+                height: 6.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 
+
   void _showReservationDialog(DateTime day) {
+    if (day.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not Reserve!'),
+        ),
+      );
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (context) {
@@ -168,6 +176,8 @@ class _AvailabilityState extends State<Availability> {
       },
     );
   }
+
+
 
   void _makeReservation(DateTime day) {
     setState(() {

@@ -150,8 +150,7 @@ class _LoginState extends State<Login> {
                               }
                           );
                         });
-                        Navigator.pushReplacementNamed(context, '/');
-                        Navigator.popAndPushNamed(context, '/');
+                        //Navigator.pushReplacementNamed(context, '/');
                       }
                     },
                     child: buttonContent,
@@ -177,7 +176,7 @@ class _LoginState extends State<Login> {
                             color: Colors.orange[400],
                           ),
                         ),
-                        onTap: ()=> Navigator.popAndPushNamed(context, '/signup'),
+                        onTap: ()=> Navigator.popAndPushNamed(context, '/registration'),
                       )
                     ],
                   )
