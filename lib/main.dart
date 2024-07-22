@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:kandahar/screens/accommodation.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
-
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
 
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/login',
+  initialRoute: '/',
   routes: {
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
     '/accommodation' : (context) => Accommodation(),
-    '/bookingPage' : (context) => BookingPage(),
+    '/bookings' : (context) => Bookings(),
     '/profile' : (context) => Profile(),
   },
 ));
@@ -32,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     MyHomePage(),
     Accommodation(),
-    BookingPage(),
+    Bookings(),
     Profile(),
   ];
 
