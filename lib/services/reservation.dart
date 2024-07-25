@@ -9,7 +9,6 @@ class Reservation {
   final DateTime checkOutDate;
   final TimeOfDay checkOutTime;
   final double total;
-  final bool reserved;
   final String status;
 
   Reservation({
@@ -21,7 +20,6 @@ class Reservation {
     required this.checkOutDate,
     required this.checkOutTime,
     required this.total,
-    required this.reserved,
     required this.status,
   });
 
@@ -35,7 +33,6 @@ class Reservation {
       checkOutDate: DateTime.parse(json['checkOutDate']),
       checkOutTime: TimeOfDay.fromDateTime(DateTime.parse(json['checkOutTime'])),
       total: json['total'],
-      reserved: json['reserved'],
       status: json['status'],
     );
   }
@@ -50,7 +47,6 @@ class Reservation {
       'checkOutDate': checkOutDate.toIso8601String(),
       'checkOutTime': '${checkOutTime.hour}:${checkOutTime.minute}',
       'total': total,
-      'reserved': reserved,
       'status': status,
     };
   }

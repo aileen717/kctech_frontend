@@ -108,9 +108,7 @@ class _AvailabilityState extends State<Availability> {
 
     return GestureDetector(
       onTap: () {
-        if (!day.isBefore(DateTime.now())) {
-          _showReservationDialog(day);
-        }
+        _showReservationDialog(day);
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
@@ -120,16 +118,36 @@ class _AvailabilityState extends State<Availability> {
           children: [
             Text(
               day.day.toString(),
-              style: TextStyle(fontSize: 14.0, color: textColor ?? Colors.black),
+              style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
             ),
             SizedBox(height: 2),
+
+            if (isSelected)
+              Container(
+                width: 6.0,
+                height: 6.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
+
   void _showReservationDialog(DateTime day) {
+    if (day.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not Reserve!'),
+        ),
+      );
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (context) {
@@ -161,6 +179,8 @@ class _AvailabilityState extends State<Availability> {
       },
     );
   }
+
+
 
   void _makeReservation(DateTime day) {
     setState(() {

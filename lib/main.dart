@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kandahar/screens/accommodation.dart';
+import 'package:kandahar/screens/menu.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
@@ -13,8 +13,9 @@ void main() => runApp(MaterialApp(
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
-    '/accommodation' : (context) => Accommodation(),
-    '/bookings' : (context) => Bookings(),
+
+    '/rooms' : (context) => Menu(),
+    '/bookingPage' : (context) => BookingPage(),
     '/profile' : (context) => Profile(),
   },
 ));
@@ -30,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _widgetOptions = [
 
     MyHomePage(),
-    Accommodation(),
-    Bookings(),
+    Menu(),
+    BookingPage(),
     Profile(),
   ];
 
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.beach_access),
-            label: 'Accommodations',
+            label: 'Rooms',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmarks_outlined),

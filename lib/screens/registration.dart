@@ -130,9 +130,6 @@ class _SignupState extends State<Registration> {
                         if (value.length < 8) {
                           return 'Password should be atleast 8 characters long';
                         }
-                        if (value.length > 20) {
-                          return 'Password should be atleast 20 characters long';
-                        }
                         return null;
                       },
                       onSaved: (value) {
