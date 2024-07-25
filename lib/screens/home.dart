@@ -30,14 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
-
-  void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
   final List<String> imgList = [
     'assets/front.jpg',
     'assets/Room1.jpg',
@@ -56,54 +48,48 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
-        backgroundColor: Colors.brown[600],
+        backgroundColor: Colors.brown[500],
         centerTitle: true,
         toolbarHeight: 100.0,
       ),
 
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: Container(
-              color: Colors.brown[400],
-              child: Center(
-                child: Text(
-                  'HOME',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            PreferredSize(
+              preferredSize: Size.fromHeight(80.0),
+              child: Container(
+                color: Colors.brown[400],
+                child: Center(
+                  child: Text(
+                    'HOME',
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
                 ),
               ),
             ),
-          ),
-          Center(
-            child: Text(
-              '',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-          ),
-          CarouselSlider(
-            options: CarouselOptions(
-              autoPlayAnimationDuration: Duration(seconds: 1),
-              height: 270.0,
-              autoPlay: true,
-              enlargeCenterPage: true,
-            ),
-            items: imgList.map((item) => Container(
-              child: Center(
-                child: Image.asset(item, fit: BoxFit.cover, width: 1000),
+            SizedBox(height: 10.0),
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlayAnimationDuration: Duration(seconds: 1),
+                height: 270.0,
+                autoPlay: true,
+                enlargeCenterPage: true,
               ),
-            )).toList(),
-          ),
-          Center(
-            child: Text(
-              '',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              items: imgList.map((item) => Container(
+                child: Center(
+                  child: Image.asset(item, fit: BoxFit.cover, width: double.infinity),
+                ),
+              )).toList(),
             ),
-          ),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
+            Text(
+              '',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10.0),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
                 'The KANDAHAR COTTAGES, owned by Ms. Neneth B. Lejano, and is located '
                     'at Matabungkay, Lian Batangas. It has 9 rooms, 2 of this is duplex '
@@ -116,28 +102,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
               ),
             ),
-          ),
-
-          SizedBox(height: 10.0,),
-          Center(
-            child: Text(
-              'Kandahar Cottages',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+            SizedBox(height: 10.0),
+            Center(
+              child: Text(
+                'Kandahar Cottages',
+                style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Center(
-            child: Text(
-              'Matabungkay Lian, Batangas',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                'Matabungkay Lian, Batangas',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Center(
-            child: Text(
-              '09057556578',
-              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                '09057556578',
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 20.0),
+          ],
+        ),
       ),
     );
   }

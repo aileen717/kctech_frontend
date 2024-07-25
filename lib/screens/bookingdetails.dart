@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:kandahar/screens/summary.dart';
 
 class Bookings extends StatefulWidget {
   final DateTime reservationDate;
@@ -18,7 +18,7 @@ class _BookingsState extends State<Bookings> {
   DateTime _checkoutDate = DateTime.now().add(Duration(days: 1));
   TimeOfDay _checkOutTime = TimeOfDay.now();
 
-  Future<void> _selectCheckInDate(BuildContext context) async {
+  Future<void> selectCheckInDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _checkInDate,
@@ -32,8 +32,7 @@ class _BookingsState extends State<Bookings> {
     }
   }
 
-
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> _selectCheckOutDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _checkoutDate,
@@ -65,6 +64,13 @@ class _BookingsState extends State<Bookings> {
       print('CheckIn Time: $_checkInTime');
       print('Checkout Date: $_checkoutDate');
       print('CheckOut Time: $_checkOutTime');
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Summary(reservationDate: widget.reservationDate),
+        ),
+      );
     }
   }
 
@@ -129,13 +135,14 @@ class _BookingsState extends State<Bookings> {
                     SizedBox(height: 20.0),
                     ElevatedButton(
                       onPressed: _submitForm,
-                      child: Text('Continue'),
+                      child: Text('Reserve'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown[700], // Background color
-                        foregroundColor: Colors.white, // Text color
+                        backgroundColor: Colors.brown[700],
+                        foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                       ),
                     ),
+
                   ],
                 ),
               ),

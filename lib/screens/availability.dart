@@ -3,7 +3,6 @@ import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
-
   @override
   _AvailabilityState createState() => _AvailabilityState();
 }
@@ -18,19 +17,19 @@ class _AvailabilityState extends State<Availability> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Kandahar Cottages'),
-        backgroundColor: Colors.brown[200],
+        backgroundColor: Colors.brown[500],
         centerTitle: true,
         toolbarHeight: 110.0,
       ),
-
       body: Column(
         children: [
           PreferredSize(
             preferredSize: Size.fromHeight(80.0),
             child: Container(
-              color: Colors.brown[400],
+              color: Colors.brown[300],
               child: Center(
                 child: Text(
                   'Check Availability',
@@ -52,10 +51,14 @@ class _AvailabilityState extends State<Availability> {
                     return isSameDay(_selectedDay, day);
                   },
                   onDaySelected: (selectedDay, focusedDay) {
+                    if (selectedDay.isBefore(DateTime.now())) {
+                      return;
+                    }
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
                     });
+                    _showReservationDialog(selectedDay);
                   },
                   onFormatChanged: (format) {
                     if (_calendarFormat != format) {
@@ -85,8 +88,9 @@ class _AvailabilityState extends State<Availability> {
                   ),
                   rowHeight: 80,
                   enabledDayPredicate: (day) {
-                    // Enable day if it doesn't have a reservation
-                    return !_events.containsKey(day) || _events[day]!.isEmpty;
+                    // Enable day if it doesn't have a reservation and it's not in the past
+                    return (!_events.containsKey(day) || _events[day]!.isEmpty) &&
+                        !day.isBefore(DateTime.now());
                   },
                 ),
               ),
@@ -102,35 +106,25 @@ class _AvailabilityState extends State<Availability> {
     final isSelected = isSameDay(_selectedDay, day);
     final isToday = isSameDay(DateTime.now(), day);
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            day.day.toString(),
-            style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
-          ),
-          SizedBox(height: 2),
-          ElevatedButton(
-            onPressed: () {
-              _showReservationDialog(day);
-            },
-            style: ButtonStyle(
-              padding:MaterialStateProperty.all<EdgeInsetsGeometry>(
-                EdgeInsets.symmetric(vertical: 6.0, horizontal: 10.0),
-              ),
-              minimumSize: MaterialStateProperty.all<Size>(
-                Size(0, 0),
-              ),
+    return GestureDetector(
+      onTap: () {
+        if (!day.isBefore(DateTime.now())) {
+          _showReservationDialog(day);
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              day.day.toString(),
+              style: TextStyle(fontSize: 14.0, color: textColor ?? Colors.black),
             ),
-            child: Text(
-              'Reserve',
-              style: TextStyle(fontSize: 8.0),
-            ),
-          ),
-        ],
+            SizedBox(height: 2),
+          ],
+        ),
       ),
     );
   }
@@ -140,9 +134,8 @@ class _AvailabilityState extends State<Availability> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Make a Reservation'),
-          content: Text(
-              'Would you like to make a reservation for ${day.toLocal()}?'),
+          title: Text('Make Reservation'),
+          content: Text('Would you like to make a reservation for ${day.toLocal()}?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -154,7 +147,6 @@ class _AvailabilityState extends State<Availability> {
               onPressed: () {
                 _makeReservation(day);
                 Navigator.of(context).pop();
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -179,6 +171,7 @@ class _AvailabilityState extends State<Availability> {
     });
   }
 }
+
 class Event {
   final String title;
 

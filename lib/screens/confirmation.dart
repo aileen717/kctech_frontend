@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 void main() {
   runApp(MaterialApp(
     title: 'Booking Confirmation',
@@ -21,7 +22,7 @@ class _ConfirmationState extends State<Confirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text('Booking Confirmation',
           style: TextStyle(
@@ -35,7 +36,7 @@ class _ConfirmationState extends State<Confirmation> {
       body: Expanded(
             child: Center(
               child: Card(
-                color: Colors.brown[200],
+                color: Colors.brown[100],
                 margin: EdgeInsets.all(20.0),
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
@@ -51,12 +52,12 @@ class _ConfirmationState extends State<Confirmation> {
                       SizedBox(height: 20.0),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(context, '/');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueGrey[100],
+                          backgroundColor: Colors.grey[300],
                         ),
-                        child: Text('Back to Home',
+                        child: Text('GO BACK',
                           style: TextStyle(
                             color: Colors.black,
                           ),

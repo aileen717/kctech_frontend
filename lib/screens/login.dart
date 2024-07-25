@@ -16,7 +16,7 @@ class _LoginState extends State<Login> {
   String email = '';
   String password = '';
   bool _obscure = true;
-  IconData _obscureIcon = Icons.visibility_off;
+  IconData obscureIcon = Icons.visibility_off;
 
   Widget buttonContent = Text('Log in');
   Widget loadingDisplay = CircularProgressIndicator();
@@ -103,9 +103,9 @@ class _LoginState extends State<Login> {
                           setState(() {
                             _obscure=!_obscure;
                             if(_obscure){
-                              _obscureIcon = Icons.visibility_off;
+                              obscureIcon = Icons.visibility_off;
                             }else{
-                              _obscureIcon = Icons.visibility_off;
+                              obscureIcon = Icons.visibility_off;
                             }
                           });
                         },
@@ -132,13 +132,11 @@ class _LoginState extends State<Login> {
                       if(formKey.currentState!.validate()){
                         formKey.currentState!.save();
                         User user = User(
+                          id: '',
                           username: '',
                           email: email,
                           password: password,
                         );
-                        /*if(login(user)){
-                   Navigator.pushReplacementNamed(context, '/dashboard');
-                 }*/
                         setState(() {
                           buttonContent = FutureBuilder(
                               future: login(user),
