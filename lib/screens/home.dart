@@ -57,13 +57,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              color: Colors.brown[400],
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: Center(
-                child: Text(
-                  'HOME',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+            PreferredSize(
+              preferredSize: Size.fromHeight(80.0),
+              child: Container(
+                color: Colors.brown[400],
+                child: Center(
+                  child: Text(
+                    'HOME',
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
                 ),
               ),
             ),
@@ -80,6 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Image.asset(item, fit: BoxFit.cover, width: double.infinity),
                 ),
               )).toList(),
+            ),
+            Text(
+              '',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10.0),
             Padding(

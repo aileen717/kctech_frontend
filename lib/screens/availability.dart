@@ -3,7 +3,6 @@ import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Availability extends StatefulWidget {
-
   @override
   _AvailabilityState createState() => _AvailabilityState();
 }
@@ -52,10 +51,14 @@ class _AvailabilityState extends State<Availability> {
                     return isSameDay(_selectedDay, day);
                   },
                   onDaySelected: (selectedDay, focusedDay) {
+                    if (selectedDay.isBefore(DateTime.now())) {
+                      return;
+                    }
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
                     });
+                    _showReservationDialog(selectedDay);
                   },
                   onFormatChanged: (format) {
                     if (_calendarFormat != format) {
@@ -85,8 +88,9 @@ class _AvailabilityState extends State<Availability> {
                   ),
                   rowHeight: 80,
                   enabledDayPredicate: (day) {
-                    // Enable day if it doesn't have a reservation
-                    return !_events.containsKey(day) || _events[day]!.isEmpty;
+                    // Enable day if it doesn't have a reservation and it's not in the past
+                    return (!_events.containsKey(day) || _events[day]!.isEmpty) &&
+                        !day.isBefore(DateTime.now());
                   },
                 ),
               ),
@@ -149,8 +153,7 @@ class _AvailabilityState extends State<Availability> {
       builder: (context) {
         return AlertDialog(
           title: Text('Make Reservation'),
-          content: Text(
-              'Would you like to make a reservation for ${day.toLocal()}?'),
+          content: Text('Would you like to make a reservation for ${day.toLocal()}?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -188,6 +191,7 @@ class _AvailabilityState extends State<Availability> {
     });
   }
 }
+
 class Event {
   final String title;
 
