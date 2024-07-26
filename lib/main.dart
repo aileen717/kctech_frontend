@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:kandahar/screens/availability.dart';
 import 'package:kandahar/screens/menu.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
+import 'package:kandahar/screens/registration2.dart';
 
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/',
+  initialRoute: '/login',
   routes: {
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
-
-    '/rooms' : (context) => Menu(),
-    '/bookingPage' : (context) => BookingPage(),
+    '/signup' : (context) => Registration2(),
+    '/availability' : (context) => Availability(),
+    '/rooms' : (context) => Accommodation(),
+    '/bookings' : (context) => Bookings(),
     '/profile' : (context) => Profile(),
   },
 ));
@@ -31,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _widgetOptions = [
 
     MyHomePage(),
-    Menu(),
-    BookingPage(),
+    Accommodation(),
+    Bookings(),
     Profile(),
   ];
 

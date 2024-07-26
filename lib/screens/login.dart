@@ -52,11 +52,19 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
         CircleAvatar(
-        radius: 70.0,
+        radius: 90.0,
            backgroundImage: AssetImage('assets/448878943_830805581902901_7913759342511156959_n.png'),
           ),
         ],
         ),
+            Text(
+              '',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2.0,
+                fontSize: 25.0,
+              ),
+            ),
           Text(
             'Welcome to Kandahar!',
             style: TextStyle(
@@ -65,7 +73,14 @@ class _LoginState extends State<Login> {
               fontSize: 25.0,
             ),
           ),
-
+            Text(
+              '',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2.0,
+                fontSize: 25.0,
+              ),
+            ),
             Form(
               key: formKey,
               child: Column(
@@ -89,7 +104,7 @@ class _LoginState extends State<Login> {
                       email = value!;
                     },
                   ),
-                  SizedBox(height: 30.0),
+                  SizedBox(height: 10.0),
                   TextFormField(
                     obscureText: _obscure,
                     decoration: InputDecoration(
@@ -126,7 +141,7 @@ class _LoginState extends State<Login> {
                       password = value!;
                     },
                   ),
-                  SizedBox(height: 30.0,),
+                  SizedBox(height: 10.0,),
                   ElevatedButton(
                     onPressed: (){
                       if(formKey.currentState!.validate()){
@@ -159,34 +174,32 @@ class _LoginState extends State<Login> {
                       foregroundColor: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 30.0,),
-                  Row(
-                    children: [
-                      Text(
-                        'Don`t have an account?',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(width: 5.0,),
-                      InkWell(
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.orange[400],
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Don't have an account?"),
+                          InkWell(
+                            child: Text(
+                              'Sign up here',
+                              style: TextStyle(
+                                color: Colors.blue[600],
+                              ),
+                            ),
+                            onTap: () =>
+                                Navigator.popAndPushNamed(context, '/registration'),
                           ),
-                        ),
-                        onTap: ()=> Navigator.popAndPushNamed(context, '/registration'),
+
+                        ],
                       )
                     ],
                   )
-                ],
+            ),
+  ]
               ),
             ),
-          ],
+
           ),
-        ),
-      ),
-    );
+        );
   }
 }
