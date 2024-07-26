@@ -1,8 +1,15 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kandahar/screens/bookingdetails.dart';
+import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
+import 'package:kandahar/services/Room.dart';
+import 'package:kandahar/services/reservation.dart';
 
 class Availability extends StatefulWidget {
+  final Room room;
+
+  const Availability({required this.room});
+
   @override
   _AvailabilityState createState() => _AvailabilityState();
 }
@@ -88,7 +95,6 @@ class _AvailabilityState extends State<Availability> {
                   ),
                   rowHeight: 80,
                   enabledDayPredicate: (day) {
-                    // Enable day if it doesn't have a reservation and it's not in the past
                     return (!_events.containsKey(day) || _events[day]!.isEmpty) &&
                         !day.isBefore(DateTime.now());
                   },
@@ -121,7 +127,6 @@ class _AvailabilityState extends State<Availability> {
               style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
             ),
             SizedBox(height: 2),
-
             if (isSelected)
               Container(
                 width: 6.0,
@@ -137,6 +142,64 @@ class _AvailabilityState extends State<Availability> {
     );
   }
 
+  Future<void> _createReservation(DateTime day) async {
+    final url = 'http://10.0.2.2:8080/api/v1/reservation/new';
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final reservation = Reservation(
+      id: 0,
+      userAuthId: 1,
+      roomId: widget.room.id,
+      checkInDate: day,
+      checkInTime: TimeOfDay.now(),
+      checkOutDate: day.add(Duration(days: 1)),
+      checkOutTime: TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1),
+      total: widget.room.price,
+      status: 'Pending',
+    );
+
+    final body = jsonEncode(reservation.toJson());
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _makeReservation(day);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Reservation successful!'),
+          ),
+        );
+      } else {
+        // Print status code and response body for debugging
+        print('Failed to make reservation. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to make reservation: ${response.body}'),
+          ),
+        );
+      }
+    } catch (e) {
+      // Print the error for debugging
+      print('Error: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
+  }
 
   void _showReservationDialog(DateTime day) {
     if (day.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
@@ -163,14 +226,8 @@ class _AvailabilityState extends State<Availability> {
             ),
             TextButton(
               onPressed: () {
-                _makeReservation(day);
+                _createReservation(day);
                 Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Bookings(reservationDate: day),
-                  ),
-                );
               },
               child: Text('Reserve'),
             ),
@@ -179,8 +236,6 @@ class _AvailabilityState extends State<Availability> {
       },
     );
   }
-
-
 
   void _makeReservation(DateTime day) {
     setState(() {

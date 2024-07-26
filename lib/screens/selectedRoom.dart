@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/availability.dart';
-import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:kandahar/services/Room.dart';
-
 
 class Selectedroom extends StatefulWidget {
   final Room room;
@@ -19,12 +17,13 @@ class _SelectedroomState extends State<Selectedroom> {
 
   _SelectedroomState({required this.room});
 
-
   @override
   void initState() {
     super.initState();
     totalAmount = room.price;
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown[100],
@@ -40,8 +39,18 @@ class _SelectedroomState extends State<Selectedroom> {
           children: [
             Container(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.network(widget.room.url),
+                  SizedBox(height: 20.0,),
+                  Text(
+                    'Room Name :', // Dynamic part from the backend
+                    style: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+
                   Text(
                     widget.room.name,
                     style: TextStyle(
@@ -49,33 +58,50 @@ class _SelectedroomState extends State<Selectedroom> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 20.0,),
                   Text(
-                    widget.room.pax,
+                    'Number of Pax : ', // Dynamic part from the backend
                     style: TextStyle(
                       fontSize: 17.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   Text(
-                    widget.room.price.toString(),
+                    widget.room.pax,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  SizedBox(height: 20.0,),
+                  Text(
+                    'Price : ',
                     style: TextStyle(
                       fontSize: 17.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+
+                  Text(
+                    widget.room.price.toString(),
+                    style: TextStyle(
+                      fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
-
             Container(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                  MaterialPageRoute(
-                    builder: (context) => Availability(),
-                  ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Availability(room: room),
+                    ),
                   );
                 },
                 child: Text('Check Availability'),
@@ -90,9 +116,9 @@ class _SelectedroomState extends State<Selectedroom> {
                 ),
               ),
             ),
-              ],
-            )
+          ],
         ),
+      ),
     );
   }
 }

@@ -12,17 +12,15 @@ class Summary extends StatefulWidget {
 
 class _SummaryState extends State<Summary> {
   Map<String, dynamic> bookingDetails = {
-    'guestName': 'John Doe',
-    'guestEmail': 'johndoe@example.com',
+    'roomId': '123',
+    'userId': '12-123',
+    'roomName': 'Deluxe Room',
+    'roomPrice': '3,200',
     'checkInDate': 'August 15, 2024',
     'checkInTime': '3:00 PM',
     'checkOutDate': 'August 18, 2024',
     'checkOutTime': '12:00 PM',
-    'roomName': 'Deluxe Room',
-    'totalAmount': 450,
-    'resortName': 'Kandahar Cottages',
-    'resortPhone': '+9876543210',
-    'resortWebsite': 'www.kandaharcottages.com',
+    'totalAmount': 3200,
   };
 
   @override
@@ -50,9 +48,10 @@ class _SummaryState extends State<Summary> {
             children: <Widget>[
               _buildSectionTitle('Guest Information'),
               _buildDetailRow('Name', bookingDetails['guestName']),
-              _buildDetailRow('Email', bookingDetails['guestEmail']),
+              _buildDetailRow('User Id', bookingDetails['12-123']),
               SizedBox(height: 20.0),
               _buildSectionTitle('Reservation Details'),
+              _buildDetailRow('Room Id', bookingDetails['RoomId']),
               _buildDetailRow('Check-in Date', bookingDetails['checkInDate']),
               _buildDetailRow('Check-in Time', bookingDetails['checkInTime']),
               _buildDetailRow('Check-out Date', bookingDetails['checkOutDate']),
@@ -61,11 +60,6 @@ class _SummaryState extends State<Summary> {
               SizedBox(height: 20.0),
               _buildDetailRow('Total Amount', '\$${bookingDetails['total']}'),
               SizedBox(height: 20.0),
-              _buildSectionTitle('Contact Information'),
-              _buildDetailRow('Resort Name', bookingDetails['resortName']),
-              _buildDetailRow('Phone', bookingDetails['resortPhone']),
-              _buildDetailRow('Website', bookingDetails['resortWebsite']),
-              SizedBox(height: 30.0),
 
               // Button Section
               ElevatedButton(

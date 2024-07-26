@@ -13,9 +13,8 @@ void main() => runApp(MaterialApp(
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
-
     '/rooms' : (context) => Menu(),
-    '/bookingPage' : (context) => BookingPage(),
+    '/bookings' : (context) => Bookings(),
     '/profile' : (context) => Profile(),
   },
 ));
@@ -32,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     MyHomePage(),
     Menu(),
-    BookingPage(),
+    Bookings(),
     Profile(),
   ];
 
