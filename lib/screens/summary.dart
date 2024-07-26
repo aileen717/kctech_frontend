@@ -20,7 +20,9 @@ class _SummaryState extends State<Summary> {
     'checkInTime': '3:00 PM',
     'checkOutDate': 'August 18, 2024',
     'checkOutTime': '12:00 PM',
+
     'totalAmount': 3200,
+
   };
 
   @override
@@ -56,9 +58,9 @@ class _SummaryState extends State<Summary> {
               _buildDetailRow('Check-in Time', bookingDetails['checkInTime']),
               _buildDetailRow('Check-out Date', bookingDetails['checkOutDate']),
               _buildDetailRow('Check-out Time', bookingDetails['checkOutTime']),
-              _buildDetailRow('Room Name', bookingDetails['name']),
+              _buildDetailRow('Room Type', bookingDetails['roomType']),
               SizedBox(height: 20.0),
-              _buildDetailRow('Total Amount', '\$${bookingDetails['total']}'),
+              _buildDetailRow('Total Amount', '\$${bookingDetails['totalAmount']}'),
               SizedBox(height: 20.0),
 
               // Button Section

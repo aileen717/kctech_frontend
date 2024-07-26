@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:kandahar/screens/availability.dart';
 import 'package:kandahar/screens/menu.dart';
 import 'package:kandahar/screens/bookings.dart';
 import 'package:kandahar/screens/home.dart';
 import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
+import 'package:kandahar/screens/registration2.dart';
 
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/',
+  initialRoute: '/login',
   routes: {
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
+
     '/rooms' : (context) => Menu(),
+
     '/bookings' : (context) => Bookings(),
     '/profile' : (context) => Profile(),
   },
