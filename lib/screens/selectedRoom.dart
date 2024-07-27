@@ -12,16 +12,8 @@ class Selectedroom extends StatefulWidget {
 
 class _SelectedroomState extends State<Selectedroom> {
   final Room room;
-  late double totalAmount;
-  int numberOfOrders = 1;
 
   _SelectedroomState({required this.room});
-
-  @override
-  void initState() {
-    super.initState();
-    totalAmount = room.price;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +24,7 @@ class _SelectedroomState extends State<Selectedroom> {
         backgroundColor: Colors.brown,
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 10.0),
+        padding: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
         color: Colors.brown[100],
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,15 +33,27 @@ class _SelectedroomState extends State<Selectedroom> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Divider(
+                    height: 20.0,
+                    color: Colors.brown[300],
+                    thickness: 5.0,
+                  ),
                   Image.network(widget.room.url),
-                  SizedBox(height: 20.0,),
+                  Divider(
+                    height: 20.0,
+                    color: Colors.brown[300],
+                    thickness: 5.0,
+                  ),
+                  SizedBox(height: 30.0,),
+
                   Text(
-                    'Room Name :', // Dynamic part from the backend
+                    'Room Name :',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
+
 
                   Text(
                     widget.room.name,
@@ -58,27 +62,43 @@ class _SelectedroomState extends State<Selectedroom> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20.0,),
+                  SizedBox(height: 10.0,),
                   Text(
-                    'Number of Pax : ', // Dynamic part from the backend
+                    'Number of Pax : ',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                   Text(
                     widget.room.pax,
                     style: TextStyle(
-                      fontSize: 25.0,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Text(
+                    'Description : ',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+
+                  Text(
+                    widget.room.description,
+                    style: TextStyle(
+                      fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  SizedBox(height: 20.0,),
+                  SizedBox(height: 10.0,),
                   Text(
                     'Price : ',
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -86,7 +106,7 @@ class _SelectedroomState extends State<Selectedroom> {
                   Text(
                     widget.room.price.toString(),
                     style: TextStyle(
-                      fontSize: 25.0,
+                      fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -100,11 +120,16 @@ class _SelectedroomState extends State<Selectedroom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Availability(room: room),
+                      builder: (context) => Availability(roomId: room.id,),
                     ),
                   );
                 },
-                child: Text('Check Availability'),
+                child: Text('Check Availability',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.brown[300],
                   textStyle: TextStyle(

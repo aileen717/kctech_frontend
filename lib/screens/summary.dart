@@ -1,32 +1,87 @@
+import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kandahar/screens/confirmation.dart';
 
 class Summary extends StatefulWidget {
-  final DateTime reservationDate;
-
-  Summary({Key? key, required this.reservationDate}) : super(key: key);
+  final Map<String, dynamic> bookingDetails;
+  Summary({Key? key, required this.bookingDetails}) : super(key: key);
 
   @override
-  State<Summary> createState() => _SummaryState();
+  State<Summary> createState() => _SummaryState(bookingDetails: bookingDetails);
 }
 
 class _SummaryState extends State<Summary> {
-  Map<String, dynamic> bookingDetails = {
-    'roomId': '123',
-    'userId': '12-123',
-    'roomName': 'Deluxe Room',
-    'roomPrice': '3,200',
-    'checkInDate': 'August 15, 2024',
-    'checkInTime': '3:00 PM',
-    'checkOutDate': 'August 18, 2024',
-    'checkOutTime': '12:00 PM',
+  Map<String, dynamic> bookingDetails;
 
-    'totalAmount': 3200,
+  _SummaryState({required this.bookingDetails});
 
-  };
+  Future<String> getRoomName(int roomId) async{
+    try{
+      String apiUrl = 'http://10.0.2.2:8080/api/v1/room/name/${roomId.toString()}';
+
+      final response = await http.get(Uri.parse(apiUrl));
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        // Successful reservation
+        return response.body;
+        // Navigate to success screen or handle accordingly
+      }
+      return '';
+
+    }catch (e) {
+      // Handle network errors
+      print('Error: $e');
+      return '';
+      // Show error message to user or retry logic
+    }
+  }
+
+  Future<bool> _makeReservation() async {
+    try {
+      const String apiUrl = 'http://10.0.2.2:8080/api/v1/reservation/new';
+
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          // Add any necessary headers
+        },
+        body: jsonEncode(bookingDetails),
+      );
+
+      if (response.statusCode == 200) {
+        // Successful reservation
+        print('Reservation successful');
+        return true;
+        // Navigate to success screen or handle accordingly
+      } else {
+        // Handle other status codes
+        print(
+            'Failed to make reservation. Status code: ${response.statusCode}');
+        return false;
+        // Show error message to user or retry logic
+      }
+    } catch (e) {
+      // Handle network errors
+      print('Error making reservation: $e');
+      return false;
+      // Show error message to user or retry logic
+    }
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm'); // Customize format as needed
+    return formatter.format(dateTime);
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    print(bookingDetails);
     return Scaffold(
       backgroundColor: Colors.grey[400],
       resizeToAvoidBottomInset: false,
@@ -48,30 +103,40 @@ class _SummaryState extends State<Summary> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _buildSectionTitle('Guest Information'),
-              _buildDetailRow('Name', bookingDetails['guestName']),
-              _buildDetailRow('User Id', bookingDetails['12-123']),
+
               SizedBox(height: 20.0),
-              _buildSectionTitle('Reservation Details'),
-              _buildDetailRow('Room Id', bookingDetails['RoomId']),
-              _buildDetailRow('Check-in Date', bookingDetails['checkInDate']),
-              _buildDetailRow('Check-in Time', bookingDetails['checkInTime']),
-              _buildDetailRow('Check-out Date', bookingDetails['checkOutDate']),
-              _buildDetailRow('Check-out Time', bookingDetails['checkOutTime']),
-              _buildDetailRow('Room Type', bookingDetails['roomType']),
-              SizedBox(height: 20.0),
-              _buildDetailRow('Total Amount', '\$${bookingDetails['totalAmount']}'),
+               _buildSectionTitle('Reservation Details'),
+               _buildDetailRow('Room Id', bookingDetails['roomId'].toString()),
+              _buildDetailRow(
+                'Check-in Date',
+                bookingDetails['checkInDate'] is DateTime
+                    ? _formatDateTime(bookingDetails['checkInDate'])
+                    : 'N/A',
+              ),
+              _buildDetailRow('Check-in Time', bookingDetails['checkInTime'].toString()),
+              _buildDetailRow(
+                'Check-out Date',
+                bookingDetails['checkOutDate'] is DateTime
+                    ? _formatDateTime(bookingDetails['checkOutDate'])
+                    : 'N/A',
+              ),
+              _buildDetailRow('Check-out Time', bookingDetails['checkOutTime'].toString()),
+
               SizedBox(height: 20.0),
 
-              // Button Section
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Confirmation(),
-                    ),
-                  );
+
+                  _makeReservation().then((result){
+                    if(result){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Confirmation(),
+                        ),
+                      );
+                    }
+                  });
                 },
                 child: Text(
                   'Confirm Reservation',

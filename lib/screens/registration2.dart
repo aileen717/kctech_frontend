@@ -135,7 +135,7 @@ class _SignupState extends State<Registration2> {
                           print(name);
                           print(address);
                           print(phoneNumber);
-                          Navigator.pushReplacementNamed(context, '/');
+                          Navigator.pushReplacementNamed(context, '/login');
                         }
                       },
                       child: Text('Sign Up'),

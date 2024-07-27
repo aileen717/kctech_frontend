@@ -1,132 +1,114 @@
-import 'package:flutter/material.dart';
-import 'package:kandahar/screens/availability.dart';
+import 'dart:convert';
 
-class Accommodation extends StatelessWidget {
+import 'package:kandahar/services/menuCard.dart';
+import 'package:flutter/material.dart';
+import 'package:kandahar/services/Room.dart';
+import 'package:kandahar/screens/selectedRoom.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+class Menu extends StatefulWidget {
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  late Future<List<Room>> rooms;
+  Future <List<Room>> fetchData() async{
+    final response = await http.get(
+        Uri.parse('http://10.0.2.2:8080/api/v1/room/all')
+    );
+    final List<dynamic> data = jsonDecode(response.body);
+    List<Room> rooms = [];
+    for(var room in data){
+      rooms.add(Room.fromJson(room));
+    }
+
+    return rooms;
+  }
+
+  @override
+  void initState() {
+    rooms = fetchData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        title: Text('Kandahar Cottages'),
         backgroundColor: Colors.brown[600],
-        centerTitle: true,
-        toolbarHeight: 110.0,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          PreferredSize(
-            preferredSize: Size.fromHeight(80.0),
-            child: Container(
-              color: Colors.brown[400],
-              child: Center(
-                child: Text(
-                  'ROOMS',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(16.0),
-              children: [
-                buildRoomCard(
-                  name: 'Deluxe Room',
-                  imagePath: 'assets/Room1.jpg',
-                  price: 'PHP 3,300',
-                  context: context,
-                ),
-                buildRoomCard(
-                  name: 'Standard Room',
-                  imagePath: 'assets/Room4.jpg',
-                  price: 'PHP 2,000',
-                  context: context,
-                ),
-                buildRoomCard(
-                  name: 'Single Room',
-                  imagePath: 'assets/Room3.jpg',
-                  price: 'PHP 1,200',
-                  context: context,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        foregroundColor: Colors.white,
+        title: Text(
+          'Rooms',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25.0,
+            color: Colors.black,
 
-  Widget buildRoomCard({
-    required String name,
-    required String imagePath,
-    required String price,
-    required BuildContext context,
-  }) {
-    return Card(
-      color: Colors.grey[300],
-      elevation: 7.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 13.0),
-            Image.asset(
-              imagePath,
-              height: 200.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              price,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.grey[700],
-              ),
-            ),
-            Text(
-              'per night',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Availability(),
-                      ),
-                    );
-                  },
-                  child: Text('Check Availability'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown[400],
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
+        centerTitle: true,
+
+      ),
+      body: Padding(
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+          child: FutureBuilder(
+              future: rooms,
+              builder: (BuildContext context, snapshots){
+                if(snapshots.connectionState == ConnectionState.waiting){
+                  return Center(
+                    child: SpinKitThreeBounce(
+                      color: Colors.brown[500],
+                      size: 60.0,
+                    ),
+                  );
+                }
+                if(snapshots.hasData) {
+                  List? rooms = snapshots.data! as List?;
+                  return Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: ListView.builder(
+                        itemCount: rooms!.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            color: Colors.brown[300],
+                            child: ListTile(
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    rooms[index].name,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(rooms[index].price.toString()),
+                                ],
+                              ),
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Selectedroom(room: rooms[index]),
+                                    )
+                                );
+                              },
+
+                            ),
+                          );
+                        }
+                    ),
+                  );
+                }
+                return Center(
+                  child: Text('Unable to load data'),
+                );
+              }
+          )
       ),
     );
   }

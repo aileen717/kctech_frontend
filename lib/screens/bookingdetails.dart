@@ -3,20 +3,39 @@ import 'package:intl/intl.dart';
 import 'package:kandahar/screens/summary.dart';
 
 class Bookings extends StatefulWidget {
-  final DateTime reservationDate;
-
-  const Bookings({Key? key, required this.reservationDate}) : super(key: key);
+  final Map<String, dynamic> roomAndDate;
+  const Bookings({Key? key, required this.roomAndDate}) : super(key: key);
 
   @override
-  State<Bookings> createState() => _BookingsState();
+  State<Bookings> createState() => _BookingsState(roomAndDate: roomAndDate);
 }
 
 class _BookingsState extends State<Bookings> {
   final _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> roomAndDate;
   DateTime _checkInDate = DateTime.now();
   TimeOfDay _checkInTime = TimeOfDay.now();
   DateTime _checkoutDate = DateTime.now().add(Duration(days: 1));
   TimeOfDay _checkOutTime = TimeOfDay.now();
+
+  _BookingsState({required this.roomAndDate});
+
+  // Convert TimeOfDay to DateTime
+  DateTime _timeOfDayToDateTime(TimeOfDay timeOfDay, DateTime referenceDate) {
+    return DateTime(
+      referenceDate.year,
+      referenceDate.month,
+      referenceDate.day,
+      timeOfDay.hour,
+      timeOfDay.minute,
+    );
+  }
+
+  // Function to format DateTime to Hm
+  String _formatTime(TimeOfDay timeOfDay) {
+    final dateTime = _timeOfDayToDateTime(timeOfDay, DateTime.now());
+    return DateFormat.Hm().format(dateTime);
+  }
 
   Future<void> selectCheckInDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -57,18 +76,20 @@ class _BookingsState extends State<Bookings> {
   }
 
   void _submitForm() {
+    Map<String, dynamic> bookingDetails = {
+      'roomId': roomAndDate['roomId'],
+      'checkInDate': _checkInDate,
+      'checkInTime': _checkInTime,
+      'checkOutDate': _checkoutDate,
+      'checkOutTime': _checkOutTime,
+    };
+    print(bookingDetails);
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print('Booking successful!');
-      print('CheckIn Date: $_checkInDate');
-      print('CheckIn Time: $_checkInTime');
-      print('Checkout Date: $_checkoutDate');
-      print('CheckOut Time: $_checkOutTime');
-
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Summary(reservationDate: widget.reservationDate),
+          builder: (context) => Summary(bookingDetails: bookingDetails),
         ),
       );
     }
@@ -106,11 +127,11 @@ class _BookingsState extends State<Bookings> {
                 child: ListView(
                   children: [
                     ListTile(
-                      title: Text("Reservation Date: ${DateFormat('yyyy-MM-dd').format(widget.reservationDate)}"),
+                      title: Text("Reservation Date: ${DateFormat('yyyy-MM-dd').format(roomAndDate['date'])}"),
                       trailing: Icon(Icons.calendar_today),
                     ),
                     ListTile(
-                      title: Text("CheckIn Time: ${_checkInTime.format(context)}"),
+                      title: Text("CheckIn Time: ${_checkInTime}"),
                       trailing: Icon(Icons.keyboard_arrow_down),
                       onTap: () => _selectTime(context, _checkInTime, (picked) {
                         setState(() {
@@ -124,7 +145,7 @@ class _BookingsState extends State<Bookings> {
                       onTap: () => _selectCheckOutDate(context),
                     ),
                     ListTile(
-                      title: Text("CheckOut Time: ${_checkOutTime.format(context)}"),
+                      title: Text("CheckOut Time: ${_checkOutTime}"),
                       trailing: Icon(Icons.keyboard_arrow_down),
                       onTap: () => _selectTime(context, _checkOutTime, (picked) {
                         setState(() {
@@ -142,7 +163,6 @@ class _BookingsState extends State<Bookings> {
                         padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
                       ),
                     ),
-
                   ],
                 ),
               ),
