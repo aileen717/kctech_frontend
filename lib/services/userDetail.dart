@@ -1,22 +1,16 @@
-class Userdetails{
-  final String username;
-  final String email;
-  final String password;
+class UserDetail{
+  final String name;
   final String address;
-  final String phoneNumber;
+  final String contact;
 
-  Userdetails({required this.username,
-    required this.email,
-    required this.password,
+  UserDetail({required this.name,
     required this.address,
-    required this.phoneNumber});
+    required this.contact});
 
   Map<String, dynamic> toJson() =>{
-    'username' : username,
-    'email' : email,
-    'password' : password,
+    'name' : name,
     'address' : address,
-    'phoneNumber' : phoneNumber,
+    'contact' : contact,
 
   };
 }
