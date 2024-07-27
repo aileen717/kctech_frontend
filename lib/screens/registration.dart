@@ -12,7 +12,7 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final formKey = GlobalKey<FormState>();
-  String name = '';
+  String name = 'kandahar';
   String email = '';
   String password = '';
   String confirmPassword = '';
@@ -44,6 +44,7 @@ class _RegistrationState extends State<Registration> {
           'Content-Type' : 'application/json'
         }
     );
+    print(response.body.toString());
     return int.parse(response.body);
   }
 
@@ -60,6 +61,8 @@ class _RegistrationState extends State<Registration> {
           'password': userAuth.password,
         }),
       );
+
+      print(response.body);
 
       if (response.statusCode == 200) {
         // Registration successful, navigate to main screen
@@ -220,6 +223,7 @@ class _RegistrationState extends State<Registration> {
                             formKey.currentState!.save();
                             if (password == confirmPassword) {
                               UserAuth userAuth = UserAuth(username: name, email: email, password: password);
+                              print(name);
                               createAccount(userAuth).then((_) {
                                 _saveCredentials(email, password).then((result) {
                                   if (result == '') {

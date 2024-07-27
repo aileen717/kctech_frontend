@@ -195,7 +195,7 @@ class _LoginState extends State<Login> {
                             if (success) {
                               _saveCredentials(email, password).then((result) {
                                 if (result == '') {
-                                  Navigator.pushReplacementNamed(context, '/profile');
+                                  Navigator.pushReplacementNamed(context, '/');
                                 } else {
                                   print(result);
                                 }
