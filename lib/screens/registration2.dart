@@ -1,65 +1,34 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kandahar/services/userDetail.dart';
+import 'package:kandahar/services/user.dart';
 
 class Registration2 extends StatefulWidget {
   @override
-  State<Registration2> createState() => _Registration();
+  State<Registration2> createState() => _SignupState();
 }
 
-class _Registration extends State<Registration2> {
+class _SignupState extends State<Registration2> {
   final formKey = GlobalKey<FormState>();
   String name = '';
-  String phoneNumber = '';
   String address = '';
+  String phoneNumber = '';
 
-
-  Future<int> getId(email) async{
-    final response = await http.get(
-        Uri.parse('http://10.0.2.2:8080/api/v1/auth/$email')
+  createAccount(User user) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/api/v1/auth/register/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'username': user.username,
+        'email': user.email,
+        'password': user.password,
+      }),
     );
-    final data = jsonDecode(response.body);
-    return data;
+    print(response.body);
   }
 
-  Future<bool> createAccount(UserDetail userDetail, email) async {
-    int id = await getId(email);
-    print(id);
-
-    try {
-      final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/api/v1/profile/addinfo'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'name': userDetail.name,
-          'email': userDetail.address,
-          'password': userDetail.contact,
-        }),
-      );
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration Successful')),
-        );
-        return true;
-        // Replace with actual navigation logic after successful registration
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.reasonPhrase}')),
-        );
-        return false;
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-      return false;
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
