@@ -165,7 +165,7 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                       Text(
-                        profile['mobileNumber'] ?? '',
+                        profile['contact'] ?? '',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey[200],

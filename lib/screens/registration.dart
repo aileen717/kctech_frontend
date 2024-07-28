@@ -212,7 +212,7 @@ class _RegistrationState extends State<Registration> {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
                             if (password == confirmPassword) {
-                              UserAuth userAuth = UserAuth(username: name, email: email, password: password);
+                              UserAuth userAuth = UserAuth(id: 0, username: name, email: email, password: password);
                               createAccount(userAuth).then((_) {
                                 _saveCredentials(email, password).then((result) {
                                   if (result == '') {
