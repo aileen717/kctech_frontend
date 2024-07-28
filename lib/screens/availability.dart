@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:kandahar/screens/bookingdetails.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'bookingdetails.dart';
 
 class Availability extends StatefulWidget {
+  final int roomId;
+  const Availability({required this.roomId});
+
   @override
-  _AvailabilityState createState() => _AvailabilityState();
+  _AvailabilityState createState() => _AvailabilityState(roomId: roomId);
 }
 
 class _AvailabilityState extends State<Availability> {
+  late final DateTime reservationDate;
+  final int roomId;
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
   Map<DateTime, List<Event>> _events = {};
+
+  _AvailabilityState({required this.roomId});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +96,6 @@ class _AvailabilityState extends State<Availability> {
                   ),
                   rowHeight: 80,
                   enabledDayPredicate: (day) {
-                    // Enable day if it doesn't have a reservation and it's not in the past
                     return (!_events.containsKey(day) || _events[day]!.isEmpty) &&
                         !day.isBefore(DateTime.now());
                   },
@@ -121,7 +128,6 @@ class _AvailabilityState extends State<Availability> {
               style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
             ),
             SizedBox(height: 2),
-
             if (isSelected)
               Container(
                 width: 6.0,
@@ -136,7 +142,6 @@ class _AvailabilityState extends State<Availability> {
       ),
     );
   }
-
 
   void _showReservationDialog(DateTime day) {
     if (day.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
@@ -164,11 +169,16 @@ class _AvailabilityState extends State<Availability> {
             TextButton(
               onPressed: () {
                 _makeReservation(day);
+                Map<String, dynamic> roomAndDate = {
+                  'roomId': roomId,
+                  'checkInDate': day,  // Changed from 'date' to 'checkInDate'
+                };
+                print(roomAndDate);
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Bookings(reservationDate: day),
+                    builder: (context) => Bookings(roomAndDate: roomAndDate),
                   ),
                 );
               },
@@ -179,8 +189,6 @@ class _AvailabilityState extends State<Availability> {
       },
     );
   }
-
-
 
   void _makeReservation(DateTime day) {
     setState(() {

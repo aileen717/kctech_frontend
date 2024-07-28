@@ -27,16 +27,6 @@ class _BookingsState extends State<Bookings> {
       'totalCost': 200.0,
       'status': 'Pending'
     },
-    {
-      'id': '3',
-      'roomName': 'Single Room',
-      'reservationDate': '2024-07-13',
-      'checkInDateTime': '2024-07-15T10:30:00',
-      'checkOutDate': '2024-07-17',
-      'checkOutTime': '10:00:00',
-      'totalCost': 200.0,
-      'status': 'Pending'
-    },
   ];
 
   List<Map<String, dynamic>> filteredTransactions = [];
