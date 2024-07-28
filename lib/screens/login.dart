@@ -25,10 +25,10 @@ class _LoginState extends State<Login> {
     try {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final userId = await getUserId(email, password);
+      final userAuthId = await getUserAuthId(email, password);
       await prefs.setString('email', _email);
       await prefs.setString('password', _password);
-      await prefs.setInt('userId', userId);
+      await prefs.setInt('userAuthId', userAuthId);
       setState(() {
         email = _email;
         password = _password;
@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-  Future<int> getUserId(String email, String password) async {
+  Future<int> getUserAuthId(String email, String password) async {
     final basicAuth = base64Encode(utf8.encode('$email:$password'));
     final response = await http.get(
         Uri.parse('http://10.0.2.2:8080/api/v1/profile/$email'),
@@ -81,184 +81,185 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: EdgeInsets.fromLTRB(30.0, 60.0, 30.0, 0),
           child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 90.0,
-                    backgroundImage: AssetImage('assets/448878943_830805581902901_7913759342511156959_n.png'),
-                  ),
-                ],
-              ),
-              Text(
-                '',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 2.0,
-                  fontSize: 25.0,
-                ),
-              ),
-              Text(
-                'Welcome to Kandahar!',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 2.0,
-                  fontSize: 25.0,
-                ),
-              ),
-              SizedBox(height: 50.0),
-              Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    TextFormField(
-                      style: TextStyle(color: Colors.black),
-                      keyboardType: TextInputType.emailAddress,
-                      maxLength: 60,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email address';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        email = value!;
-                      },
-                    ),
-                    SizedBox(height: 10.0),
-                    TextFormField(
-                      style: TextStyle(color: Colors.black),
-                      enableInteractiveSelection: false,
-                      obscureText: _obscure,
-                      maxLength: 20,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(_obscureIcon, color: Colors.black),
-                          onPressed: () {
-                            setState(() {
-                              _obscure = !_obscure;
-                              if (_obscure) {
-                                _obscureIcon = Icons.visibility_off;
-                              } else {
-                                _obscureIcon = Icons.visibility;
-                              }
-                            });
-                          },
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 8) {
-                          return 'Password must be 8 or more characters';
-                        }
-                        if (value.length > 20) {
-                          return 'Password must be 20 characters long only';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        password = value!;
-                      },
-                    ),
-                    SizedBox(height: 10.0),
-                    SizedBox(
-                      height: 50.0,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            formKey.currentState!.save();
-                            UserAuth user = UserAuth(
-                              username: '',
-                              email: email,
-                              password: password,
-                            );
-                            setState(() {
-                              buttonContent = loadingDisplay;
-                            });
-
-                            bool success = await login(user);
-                            if (success) {
-                              _saveCredentials(email, password).then((result) {
-                                if (result == '') {
-                                  Navigator.pushReplacementNamed(context, '/');
-                                } else {
-                                  print(result);
-                                }
-                              });
-                            } else {
-                              setState(() {
-                                buttonContent = Text('Log in');
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Login failed. Please check your credentials.'),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        child: buttonContent,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.brown[300],
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Don\'t have an account?',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        InkWell(
-                          child: Text(
-                            'Register Here',
-                            style: TextStyle(
-                              color: Colors.blue[700],
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          onTap: () =>
-                              Navigator.pushReplacementNamed(context, '/registration'),
-                        ),
-                      ],
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 90.0,
+                      backgroundImage: AssetImage('assets/448878943_830805581902901_7913759342511156959_n.png'),
                     ),
                   ],
                 ),
-              ),
-          ]
-              ),
-      ),
+                Text(
+                  '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2.0,
+                    fontSize: 25.0,
+                  ),
+                ),
+                Text(
+                  'Welcome to Kandahar!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2.0,
+                    fontSize: 25.0,
+                  ),
+                ),
+                SizedBox(height: 50.0),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      TextFormField(
+                        style: TextStyle(color: Colors.black),
+                        keyboardType: TextInputType.emailAddress,
+                        maxLength: 60,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          email = value!;
+                        },
+                      ),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        style: TextStyle(color: Colors.black),
+                        enableInteractiveSelection: false,
+                        obscureText: _obscure,
+                        maxLength: 20,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscureIcon, color: Colors.black),
+                            onPressed: () {
+                              setState(() {
+                                _obscure = !_obscure;
+                                if (_obscure) {
+                                  _obscureIcon = Icons.visibility_off;
+                                } else {
+                                  _obscureIcon = Icons.visibility;
+                                }
+                              });
+                            },
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 8) {
+                            return 'Password must be 8 or more characters';
+                          }
+                          if (value.length > 20) {
+                            return 'Password must be 20 characters long only';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          password = value!;
+                        },
+                      ),
+                      SizedBox(height: 10.0),
+                      SizedBox(
+                        height: 50.0,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
+                              UserAuth user = UserAuth(
+                                id: 0,
+                                username: '',
+                                email: email,
+                                password: password,
+                              );
+                              setState(() {
+                                buttonContent = loadingDisplay;
+                              });
 
+                              bool success = await login(user);
+                              if (success) {
+                                _saveCredentials(email, password).then((result) {
+                                  if (result == '') {
+                                    Navigator.pushReplacementNamed(context, '/');
+                                  } else {
+                                    print(result);
+                                  }
+                                });
+                              } else {
+                                setState(() {
+                                  buttonContent = Text('Log in');
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Login failed. Please check your credentials.'),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          child: buttonContent,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.brown[300],
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Don\'t have an account?',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          InkWell(
+                            child: Text(
+                              'Register Here',
+                              style: TextStyle(
+                                color: Colors.blue[700],
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            onTap: () =>
+                                Navigator.pushReplacementNamed(context, '/registration'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ]
           ),
-        );
+        ),
+
+      ),
+    );
 
   }
 }
