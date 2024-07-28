@@ -1,17 +1,22 @@
-class UserAuth{
+class UserAuth {
+  final int id;
   final String username;
   final String email;
   final String password;
 
   UserAuth({
+    required this.id,
     required this.username,
     required this.email,
-    required this.password});
+    required this.password,
+  });
 
-  Map<String, dynamic> toJson() =>{
-    'username' : username,
-    'email' : email,
-    'password' : password,
-
-  };
+  factory UserAuth.fromJson(Map<String, dynamic> json) {
+    return UserAuth(
+      id: json['id'],
+      username: json['username'],
+      email: json['email'],
+      password: json['password'],
+    );
+  }
 }

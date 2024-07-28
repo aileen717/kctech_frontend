@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kandahar/services/user.dart';
-import 'package:kandahar/screens/registration2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kandahar/services/user.dart';
 
 class Registration extends StatefulWidget {
   @override
@@ -23,9 +22,8 @@ class _RegistrationState extends State<Registration> {
 
   Future<String> _saveCredentials(String _email, String _password) async {
     try {
-      SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
-      final userAuthId = await getUserAuthId(email, password);
+      final userAuthId = await getUserAuthId(_email, _password);
       await prefs.setString('email', _email);
       await prefs.setString('password', _password);
       await prefs.setInt('userAuthId', userAuthId);
@@ -35,14 +33,14 @@ class _RegistrationState extends State<Registration> {
     }
   }
 
-  Future<int> getUserAuthId(String email, String password) async{
+  Future<int> getUserAuthId(String $email, String password) async {
     final basicAuth = base64Encode(utf8.encode('$email:$password'));
     final response = await http.get(
-        Uri.parse('http://10.0.2.2:8080/api/v1/profile/$email'),
-        headers: <String, String>{
-          'Authorization' : 'Basic $basicAuth',
-          'Content-Type' : 'application/json'
-        }
+      Uri.parse('http://10.0.2.2:8080/api/v1/profile/$email'),
+      headers: <String, String>{
+        'Authorization': 'Basic $basicAuth',
+        'Content-Type': 'application/json',
+      },
     );
     print(response.body.toString());
     return int.parse(response.body);
@@ -65,16 +63,13 @@ class _RegistrationState extends State<Registration> {
       print(response.body);
 
       if (response.statusCode == 200) {
-        // Registration successful, navigate to main screen
         Navigator.pushReplacementNamed(context, '/registration2');
       } else {
-        // Handle other status codes or errors
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${response.reasonPhrase}')),
         );
       }
     } catch (e) {
-      // Handle network or other errors
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('An error occurred: $e')),
       );
@@ -105,7 +100,7 @@ class _RegistrationState extends State<Registration> {
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 2.0,
-                  fontSize: 25.5,
+                  fontSize: 15.5,
                 ),
               ),
               Text(
@@ -172,7 +167,6 @@ class _RegistrationState extends State<Registration> {
                         if (value.length > 20) {
                           return 'Password must be 20 characters long only';
                         }
-                        // Add more specific password validation if needed
                         return null;
                       },
                       onChanged: (value) {
@@ -181,13 +175,9 @@ class _RegistrationState extends State<Registration> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
-                      style: TextStyle(),
                       obscureText: _obscureConfirmPassword,
-                      maxLength: 20,
                       decoration: InputDecoration(
-                        errorStyle: TextStyle(),
-                        labelText: 'Confirm Password',
-                        labelStyle: TextStyle(),
+                        label: Text('Confirm Password'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
@@ -222,8 +212,7 @@ class _RegistrationState extends State<Registration> {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
                             if (password == confirmPassword) {
-                              UserAuth userAuth = UserAuth(username: name, email: email, password: password);
-                              print(name);
+                              UserAuth userAuth = UserAuth(id: 0, username: name, email: email, password: password);
                               createAccount(userAuth).then((_) {
                                 _saveCredentials(email, password).then((result) {
                                   if (result == '') {
@@ -249,6 +238,30 @@ class _RegistrationState extends State<Registration> {
                         ),
                       ),
                     ),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 2.0,
+                        fontSize: 15.5,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already have an account? "),
+                        InkWell(
+                          child: Text(
+                            'Log In Here',
+                            style: TextStyle(
+                              color: Colors.blue[600],
+                            ),
+                          ),
+                          onTap: () =>
+                              Navigator.popAndPushNamed(context, '/login'),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

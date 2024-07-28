@@ -6,6 +6,7 @@ import 'package:kandahar/screens/login.dart';
 import 'package:kandahar/screens/registration.dart';
 import 'package:kandahar/screens/profile.dart';
 void main() => runApp(MaterialApp(
+
   initialRoute: '/',
   routes: {
     '/' : (context) => HomeScreen(),
