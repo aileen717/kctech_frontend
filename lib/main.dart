@@ -11,6 +11,7 @@ void main() => runApp(MaterialApp(
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),
     '/registration' : (context) => Registration(),
+
     '/rooms' : (context) => Menu(),
     '/bookings' : (context) => Bookings(),
     '/profile' : (context) => Profile(),
