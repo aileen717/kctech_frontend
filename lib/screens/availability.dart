@@ -96,7 +96,6 @@ class _AvailabilityState extends State<Availability> {
                   ),
                   rowHeight: 80,
                   enabledDayPredicate: (day) {
-                    // Enable day if it doesn't have a reservation and it's not in the past
                     return (!_events.containsKey(day) || _events[day]!.isEmpty) &&
                         !day.isBefore(DateTime.now());
                   },
@@ -129,7 +128,6 @@ class _AvailabilityState extends State<Availability> {
               style: TextStyle(fontSize: 10.0, color: textColor ?? Colors.black),
             ),
             SizedBox(height: 2),
-
             if (isSelected)
               Container(
                 width: 6.0,
@@ -144,7 +142,6 @@ class _AvailabilityState extends State<Availability> {
       ),
     );
   }
-
 
   void _showReservationDialog(DateTime day) {
     if (day.isBefore(DateTime.now().subtract(Duration(days: 1)))) {
@@ -174,7 +171,7 @@ class _AvailabilityState extends State<Availability> {
                 _makeReservation(day);
                 Map<String, dynamic> roomAndDate = {
                   'roomId': roomId,
-                  'date': day,
+                  'checkInDate': day,  // Changed from 'date' to 'checkInDate'
                 };
                 print(roomAndDate);
                 Navigator.of(context).pop();
@@ -192,8 +189,6 @@ class _AvailabilityState extends State<Availability> {
       },
     );
   }
-
-
 
   void _makeReservation(DateTime day) {
     setState(() {

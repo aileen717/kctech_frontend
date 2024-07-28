@@ -33,11 +33,6 @@ class _SelectedroomState extends State<Selectedroom> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Divider(
-                    height: 20.0,
-                    color: Colors.brown[300],
-                    thickness: 5.0,
-                  ),
                   Image.network(widget.room.url),
                   Divider(
                     height: 20.0,

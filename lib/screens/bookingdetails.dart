@@ -13,14 +13,16 @@ class Bookings extends StatefulWidget {
 class _BookingsState extends State<Bookings> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> roomAndDate;
-  DateTime _checkInDate = DateTime.now();
+  late DateTime _checkInDate;
   TimeOfDay _checkInTime = TimeOfDay.now();
-  DateTime _checkoutDate = DateTime.now().add(Duration(days: 1));
+  late DateTime _checkoutDate;
   TimeOfDay _checkOutTime = TimeOfDay.now();
 
-  _BookingsState({required this.roomAndDate});
+  _BookingsState({required this.roomAndDate}) {
+    _checkInDate = roomAndDate['checkInDate'] as DateTime;
+    _checkoutDate = _checkInDate.add(Duration(days: 1));
+  }
 
-  // Convert TimeOfDay to DateTime
   DateTime _timeOfDayToDateTime(TimeOfDay timeOfDay, DateTime referenceDate) {
     return DateTime(
       referenceDate.year,
@@ -31,7 +33,6 @@ class _BookingsState extends State<Bookings> {
     );
   }
 
-  // Function to format DateTime to Hm
   String _formatTime(TimeOfDay timeOfDay) {
     final dateTime = _timeOfDayToDateTime(timeOfDay, DateTime.now());
     return DateFormat.Hm().format(dateTime);
@@ -47,6 +48,7 @@ class _BookingsState extends State<Bookings> {
     if (picked != null && picked != _checkInDate) {
       setState(() {
         _checkInDate = picked;
+        _checkoutDate = _checkInDate.add(Duration(days: 1));
       });
     }
   }
@@ -127,11 +129,12 @@ class _BookingsState extends State<Bookings> {
                 child: ListView(
                   children: [
                     ListTile(
-                      title: Text("Reservation Date: ${DateFormat('yyyy-MM-dd').format(roomAndDate['date'])}"),
+                      title: Text("Check-In Date: ${DateFormat('yyyy-MM-dd').format(_checkInDate)}"),
                       trailing: Icon(Icons.calendar_today),
+                      onTap: () => selectCheckInDate(context),
                     ),
                     ListTile(
-                      title: Text("CheckIn Time: ${_checkInTime}"),
+                      title: Text("Check-In Time: ${_formatTime(_checkInTime)}"),
                       trailing: Icon(Icons.keyboard_arrow_down),
                       onTap: () => _selectTime(context, _checkInTime, (picked) {
                         setState(() {
@@ -140,12 +143,12 @@ class _BookingsState extends State<Bookings> {
                       }),
                     ),
                     ListTile(
-                      title: Text("CheckOut Date: ${DateFormat('yyyy-MM-dd').format(_checkoutDate)}"),
+                      title: Text("Check-Out Date: ${DateFormat('yyyy-MM-dd').format(_checkoutDate)}"),
                       trailing: Icon(Icons.calendar_today),
                       onTap: () => _selectCheckOutDate(context),
                     ),
                     ListTile(
-                      title: Text("CheckOut Time: ${_checkOutTime}"),
+                      title: Text("Check-Out Time: ${_formatTime(_checkOutTime)}"),
                       trailing: Icon(Icons.keyboard_arrow_down),
                       onTap: () => _selectTime(context, _checkOutTime, (picked) {
                         setState(() {
