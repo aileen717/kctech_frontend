@@ -169,78 +169,12 @@ class _Registration extends State<Registration2> {
                           Navigator.pushReplacementNamed(context, '/login');
                         }
                       },
-                      child: Text('Sign Up'),
+                      child: Text('Continue'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.brown[400],
                         foregroundColor: Colors.black,
                       ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Divider(
-                              color: Colors.brown,
-                            )),
-                        SizedBox(
-                          width: 10,
-                          height: 30.0,
-                        ),
-                        Text("or"),
-                        SizedBox(width: 10),
-                        Expanded(child: Divider(
-                          color: Colors.brown,
-                        ))
-                      ],
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                      height: 5.0,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        ElevatedButton.icon(
-                          onPressed: () {
-
-                          },
-                          icon: Icon(Icons.g_mobiledata_rounded),
-                          label: Text('Log in with Google'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        ElevatedButton.icon(
-                          onPressed: () {
-
-                          },
-                          icon: Icon(Icons.facebook),
-                          label: Text('Log in with Facebook'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[900],
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Already have an account? "),
-                        InkWell(
-                          child: Text(
-                            'Log In Here',
-                            style: TextStyle(
-                              color: Colors.blue[600],
-                            ),
-                          ),
-                          onTap: () =>
-                              Navigator.popAndPushNamed(context, '/login'),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

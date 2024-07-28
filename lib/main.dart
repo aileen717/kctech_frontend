@@ -10,7 +10,7 @@ import 'package:kandahar/screens/registration2.dart';
 
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/login',
+  initialRoute: '/registration',
   routes: {
     '/' : (context) => HomeScreen(),
     '/login' : (context) => Login(),

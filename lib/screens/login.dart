@@ -49,6 +49,7 @@ class _LoginState extends State<Login> {
           'Content-Type': 'application/json'
         }
     );
+    print(response.body.toString());
     return int.parse(response.body);
   }
 
@@ -63,6 +64,8 @@ class _LoginState extends State<Login> {
         'password': userAuth.password,
       }),
     );
+    print(response.body);
+
     if (response.statusCode == 200) {
       return true;
     }
@@ -219,29 +222,6 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 50),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Divider(
-                            color: Colors.brown[300],
-                            height: 50,
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Text(
-                          "or",
-                          style: TextStyle(color: Colors.brown[300]),
-                        ),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: Divider(
-                            color: Colors.blue[900],
-                            height: 50,
-                          ),
-                        )
-                      ],
-                    ),
                     SizedBox(
                       height: 50.0,
                     ),
@@ -252,7 +232,6 @@ class _LoginState extends State<Login> {
                           'Don\'t have an account?',
                           style: TextStyle(
                             color: Colors.black,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(
@@ -260,10 +239,9 @@ class _LoginState extends State<Login> {
                         ),
                         InkWell(
                           child: Text(
-                            'Signup Here',
+                            'Register Here',
                             style: TextStyle(
-                              color: Colors.blue[300],
-                              decoration: TextDecoration.underline,
+                              color: Colors.blue[700],
                               fontSize: 15.0,
                             ),
                           ),
@@ -275,10 +253,12 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
+          ]
+              ),
       ),
-    );
+
+          ),
+        );
+
   }
 }
